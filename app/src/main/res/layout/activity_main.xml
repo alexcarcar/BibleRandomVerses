@@ -37,7 +37,9 @@ android:gravity="fill_vertical|center_horizontal">
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:typeface="monospace"/>
+        android:typeface="sans"
+        android:textColor="#000066"
+        android:textSize="16sp" />
 </ScrollView>
 
 </LinearLayout>
