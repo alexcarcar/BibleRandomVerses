@@ -39,7 +39,9 @@ android:gravity="fill_vertical|center_horizontal">
         android:background="@android:color/transparent"
         android:typeface="sans"
         android:textColor="#000066"
-        android:textSize="16sp" />
+        android:textSize="20sp"
+        android:textIsSelectable="true"
+        android:saveEnabled="true"/>
 </ScrollView>
 
 </LinearLayout>

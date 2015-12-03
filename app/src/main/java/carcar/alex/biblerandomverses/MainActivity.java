@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private static TextView txtPassage;
     public static final long FILE_SIZE = 4289338;
 	public static final long SIZE = 2000;
-	public static final long LINES = 7;
+	public static final long LINES = 5;
 
 	public static String readLine(InputStream source) {
 		String line = "";
