@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainMenu"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/favClick"
+        android:icon="@drawable/ic_fav_off"
+        android:onClick="onFavClick"
+        android:title="@string/add_favorite"
+        myapp:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/aboutMenuItem"
+        android:onClick="onAboutClick"
+        android:title="@string/menuAbout" />
+
+    <item
+        android:id="@+id/pickPassageMenuItem"
+        android:onClick="pickPassage"
+        android:title="@string/pick_passage" />
+
+</menu>

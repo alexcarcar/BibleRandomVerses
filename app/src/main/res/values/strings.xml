@@ -1,4 +1,11 @@
 <resources>
-    <string name="app_name">Bible Random</string>
+    <string name="app_name">Bible Verses</string>
     <string name="pick_passage">New Passage</string>
+    <string name="menuAbout">About</string>
+    <string name="app_version">Version: 1.1</string>
+    <string name="contact_me">You can contact me at</string>
+    <string name="made_by">Made by Alex Carcar</string>
+    <string name="email_address">alexcarcar77@gmail.com</string>
+    <string name="launcher_icon">logo</string>
+    <string name="add_favorite">Add to Favorites</string>
 </resources>
