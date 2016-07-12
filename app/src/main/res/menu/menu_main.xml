@@ -23,4 +23,9 @@
         android:onClick="pickPassage"
         android:title="@string/pick_passage" />
 
+    <item
+        android:id="@+id/pickFavoritesMenuItem"
+        android:onClick="pickFavorites"
+        android:title="@string/pick_favorites" />
+
 </menu>

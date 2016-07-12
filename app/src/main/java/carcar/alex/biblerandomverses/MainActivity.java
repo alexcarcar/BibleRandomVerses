@@ -1314,4 +1314,9 @@ public class MainActivity extends AppCompatActivity {
     public void pickPassage(MenuItem item) {
         displayPassage();
     }
+
+    public void pickFavorites(MenuItem item) {
+        Intent intent = new Intent(this, Favorites.class);
+        startActivity(intent);
+    }
 }
