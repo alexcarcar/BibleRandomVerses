@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Favorites"
+            android:name=".FavoritesActivity"
             android:label="@string/pick_favorites"
             android:screenOrientation="portrait">
             <meta-data

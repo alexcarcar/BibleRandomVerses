@@ -1,16 +1,18 @@
 package carcar.alex.biblerandomverses;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Favorites extends ListActivity {
+public class FavoritesActivity extends ListActivity {
 
     private List<Long> favoriteIds = null;
 
@@ -24,8 +26,13 @@ public class Favorites extends ListActivity {
         for (Long id : favoriteIds) {
             favorites.add(BibleFavorites.title(id));
         }
+        Activity view = new Activity();
+        view.setContentView(R.layout.list_close_row);
+        TextView footer = (TextView) view.findViewById(R.id.closeFavorites);
+        getListView().addFooterView(footer);
         setListAdapter(new ArrayAdapter<>(this, R.layout.activity_favorites, R.id.favorites, favorites));
     }
+
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {

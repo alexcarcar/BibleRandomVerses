@@ -1231,6 +1231,15 @@ public class BibleFavorites {
         return "Zephaniah 3";
     }
 
+    public boolean isFavorite(long position) {
+        for (long favorite : this.favorites) {
+            if (position == favorite) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void save() {
         try {
             OutputStreamWriter out = new OutputStreamWriter(context.openFileOutput(BIBLE_FAVORITES, 0));
@@ -1243,21 +1252,19 @@ public class BibleFavorites {
         }
     }
 
-//    public void setFavorites(List<Long> favorites) {
-//        this.favorites = favorites;
-//    }
+    public void clear() {
+        try {
+            OutputStreamWriter out = new OutputStreamWriter(context.openFileOutput(BIBLE_FAVORITES, 0));
+            out.write("");
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.favorites = new ArrayList<>();
+    }
 
     public List<Long> getFavorites() {
         return favorites;
-    }
-
-//    public void print() {
-//        System.out.println(this.toString());
-//    }
-
-    @Override
-    public String toString() {
-        return "BibleFavorites [favorites=" + favorites + "]";
     }
 
     public void addFavorite(Long favorite) {

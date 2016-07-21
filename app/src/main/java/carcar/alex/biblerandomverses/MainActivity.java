@@ -77,11 +77,11 @@ public class MainActivity extends AppCompatActivity {
                 scriptureTitle.setText(BibleFavorites.title(pickStart));
             }
 
-            favorite = false;
+            favorite = bibleFavorites.isFavorite(pickStart);
             if (menu != null) {
                 MenuItem item = menu.findItem(R.id.favClick);
                 if (item != null) {
-                    item.setIcon(R.drawable.ic_fav_off);
+                    item.setIcon(favorite ? R.drawable.ic_fav_on : R.drawable.ic_fav_off);
                 }
             }
 
@@ -140,8 +140,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pickFavorites(MenuItem item) {
-        Intent intent = new Intent(this, Favorites.class);
+        Intent intent = new Intent(this, FavoritesActivity.class);
         startActivity(intent);
-        this.finish();
+    }
+
+    public void clearFavorites(MenuItem item) {
+        bibleFavorites.clear();
     }
 }
