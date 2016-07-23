@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Bible Verses</string>
-    <string name="pick_passage">New Passage</string>
+    <string name="pick_passage">Random Passage</string>
     <string name="menuAbout">About</string>
     <string name="app_version">Version: 2.0</string>
     <string name="contact_me">You can contact me at</string>
@@ -8,10 +8,9 @@
     <string name="email_address">alexcarcar77@gmail.com</string>
     <string name="launcher_icon">logo</string>
     <string name="add_favorite">Add to Favorites</string>
-    <string name="pick_favorites">Favorites</string>
+    <string name="pick_favorites">Favorite Passages</string>
     <string name="clear_favorites">Clear Favorites</string>
-    <string name="no_results">\nSelect favorites by using the star icon.\n\n
-        Remove items by unselecting the star.\n</string>
+    <string name="fav_instructions">Select favorite passages using the star tag. To remove items, go to a favorite passage and touch the selected star tag.\n\nEnjoy the scripture by collecting your favorite passages for future meditation!</string>
     <string name="go_back">Go Back</string>
     <string name="close">Close</string>
 </resources>

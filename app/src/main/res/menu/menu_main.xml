@@ -19,18 +19,18 @@
         android:title="@string/menuAbout" />
 
     <item
-        android:id="@+id/pickPassageMenuItem"
-        android:onClick="pickPassage"
-        android:title="@string/pick_passage" />
-
-    <item
         android:id="@+id/pickFavoritesMenuItem"
         android:onClick="pickFavorites"
         android:title="@string/pick_favorites" />
 
     <item
+        android:id="@+id/pickPassageMenuItem"
+        android:onClick="pickPassage"
+        android:title="@string/pick_passage" />
+
+    <!--<item
         android:id="@+id/clearFavoritesMenuItem"
         android:onClick="clearFavorites"
-        android:title="@string/clear_favorites" />
+        android:title="@string/clear_favorites" />-->
 
 </menu>

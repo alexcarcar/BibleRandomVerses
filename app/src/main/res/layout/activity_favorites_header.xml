@@ -17,8 +17,6 @@
         android:layout_height="60dp"
         android:background="@mipmap/blue_torn"
         android:text="@string/pick_favorites"
-        android:textAlignment="center"
-        android:textAllCaps="false"
         android:textSize="20sp" />
 
 </LinearLayout>

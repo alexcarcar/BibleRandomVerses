@@ -20,8 +20,6 @@
         android:background="@mipmap/blue_torn"
         android:onClick="pickPassage"
         android:text="@string/pick_passage"
-        android:textAlignment="center"
-        android:textAllCaps="false"
         android:textSize="20sp" />
 
     <ScrollView

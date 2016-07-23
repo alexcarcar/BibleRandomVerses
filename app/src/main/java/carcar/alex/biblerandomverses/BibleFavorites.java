@@ -39,6 +39,65 @@ public class BibleFavorites {
         }
     }
 
+    public boolean isFavorite(long position) {
+        for (long favorite : this.favorites) {
+            if (position == favorite) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void save() {
+        try {
+            OutputStreamWriter out = new OutputStreamWriter(context.openFileOutput(BIBLE_FAVORITES, 0));
+            for (Long favorite : this.favorites) {
+                out.write(favorite + "\n");
+            }
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    public void clear() {
+//        try {
+//            OutputStreamWriter out = new OutputStreamWriter(context.openFileOutput(BIBLE_FAVORITES, 0));
+//            out.write("");
+//            out.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        this.favorites = new ArrayList<>();
+//    }
+
+    public List<Long> getFavorites() {
+        return favorites;
+    }
+
+    public void addFavorite(Long favorite) {
+        for (Long fav : this.favorites) {
+            if (fav.longValue() == favorite.longValue()) {
+                return; // no need to add it since it already exists
+            }
+        }
+        this.favorites.add(favorite);
+        this.save();
+    }
+
+    public void removeFavorite(Long favorite) {
+        boolean modified = false;
+        Iterator<Long> i = this.favorites.iterator();
+        while (i.hasNext()) {
+
+            if (i.next().longValue() == favorite.longValue()) {
+                i.remove();
+                modified = true;
+            }
+        }
+        if (modified) this.save();
+    }
+
     public static String title(long n) {
         if (n < 3488) return "1 Corinthians 1";
         if (n < 7078) return "1 Corinthians 10";
@@ -1229,65 +1288,6 @@ public class BibleFavorites {
         if (n < 4283578) return "Zephaniah 1";
         if (n < 4286148) return "Zephaniah 2";
         return "Zephaniah 3";
-    }
-
-    public boolean isFavorite(long position) {
-        for (long favorite : this.favorites) {
-            if (position == favorite) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void save() {
-        try {
-            OutputStreamWriter out = new OutputStreamWriter(context.openFileOutput(BIBLE_FAVORITES, 0));
-            for (Long favorite : this.favorites) {
-                out.write(favorite + "\n");
-            }
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void clear() {
-        try {
-            OutputStreamWriter out = new OutputStreamWriter(context.openFileOutput(BIBLE_FAVORITES, 0));
-            out.write("");
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.favorites = new ArrayList<>();
-    }
-
-    public List<Long> getFavorites() {
-        return favorites;
-    }
-
-    public void addFavorite(Long favorite) {
-        for (Long fav : this.favorites) {
-            if (fav.longValue() == favorite.longValue()) {
-                return; // no need to add it since it already exists
-            }
-        }
-        this.favorites.add(favorite);
-        this.save();
-    }
-
-    public void removeFavorite(Long favorite) {
-        boolean modified = false;
-        Iterator<Long> i = this.favorites.iterator();
-        while (i.hasNext()) {
-
-            if (i.next().longValue() == favorite.longValue()) {
-                i.remove();
-                modified = true;
-            }
-        }
-        if (modified) this.save();
     }
 }
 

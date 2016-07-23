@@ -61,12 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             favorite = bibleFavorites.isFavorite(pickStart);
-            if (this.menu != null) {
-                MenuItem item = this.menu.findItem(R.id.favClick);
-                if (item != null) {
-                    item.setIcon(favorite ? R.drawable.ic_fav_on : R.drawable.ic_fav_off);
-                }
-            }
+            setFavoritesIcon();
 
             if (source.skip(pickStart) < 0) return "";
             readLine(source);
@@ -115,13 +110,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         this.menu = menu;
+        setFavoritesIcon();
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void setFavoritesIcon() {
         if (this.menu != null) {
             MenuItem item = this.menu.findItem(R.id.favClick);
             if (item != null) {
                 item.setIcon(favorite ? R.drawable.ic_fav_on : R.drawable.ic_fav_off);
             }
         }
-        return super.onPrepareOptionsMenu(menu);
     }
 
     // ================================ Menu Actions ===========================
@@ -134,9 +133,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void clearFavorites(MenuItem item) {
-        bibleFavorites.clear();
-    }
+//    public void clearFavorites(MenuItem item) {
+//        bibleFavorites.clear();
+//        favorite = false;
+//        setFavoritesIcon();
+//    }
 
     // ==========================================================================
 

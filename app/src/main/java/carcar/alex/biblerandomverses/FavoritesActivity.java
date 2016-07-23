@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,25 +34,15 @@ public class FavoritesActivity extends ListActivity {
             favorites.add(BibleFavorites.title(id));
         }
         setListAdapter(new ArrayAdapter<>(this, R.layout.activity_favorites, R.id.favorites, favorites));
-
-        TextView results = (TextView) findViewById(R.id.favoritesResults);
-        if (results != null) {
-            if (favoriteIds.size() == 0) {
-                results.setText(getResources().getString(R.string.no_results));
-            } else {
-                results.setText("");
-            }
-        }
     }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Intent intent = new Intent(v.getContext(), MainActivity.class);
-        long phraseSelected = favoriteIds.get(position);
+        long phraseSelected = favoriteIds.get(position-1);
         intent.putExtra("phraseSelected", phraseSelected);
         startActivity(intent);
-        this.finish();
     }
 
     public void closeWindow(View view) {
