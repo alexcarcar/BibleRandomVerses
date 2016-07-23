@@ -10,7 +10,8 @@
     <string name="add_favorite">Add to Favorites</string>
     <string name="pick_favorites">Favorites</string>
     <string name="clear_favorites">Clear Favorites</string>
-    <string name="no_results">No Results</string>
+    <string name="no_results">\nSelect favorites by using the star icon.\n\n
+        Remove items by unselecting the star.\n</string>
     <string name="go_back">Go Back</string>
     <string name="close">Close</string>
 </resources>

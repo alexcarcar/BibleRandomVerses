@@ -1,9 +1,10 @@
 package carcar.alex.biblerandomverses;
 
-import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -19,6 +20,13 @@ public class FavoritesActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View headerView = ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.activity_favorites_header, this.getListView(), false);
+        this.getListView().addHeaderView(headerView);
+
+        View footerView = ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.activity_favorites_footer, this.getListView(), false);
+        this.getListView().addFooterView(footerView);
 
         BibleFavorites bibleFavorites = new BibleFavorites(this);
         ArrayList<String> favorites = new ArrayList<>();
@@ -26,13 +34,17 @@ public class FavoritesActivity extends ListActivity {
         for (Long id : favoriteIds) {
             favorites.add(BibleFavorites.title(id));
         }
-/*        Activity view = new Activity();
-        view.setContentView(R.layout.list_close_row);
-        TextView footer = (TextView) view.findViewById(R.id.closeFavorites);
-        getListView().addFooterView(footer);*/
         setListAdapter(new ArrayAdapter<>(this, R.layout.activity_favorites, R.id.favorites, favorites));
-    }
 
+        TextView results = (TextView) findViewById(R.id.favoritesResults);
+        if (results != null) {
+            if (favoriteIds.size() == 0) {
+                results.setText(getResources().getString(R.string.no_results));
+            } else {
+                results.setText("");
+            }
+        }
+    }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -41,6 +53,10 @@ public class FavoritesActivity extends ListActivity {
         long phraseSelected = favoriteIds.get(position);
         intent.putExtra("phraseSelected", phraseSelected);
         startActivity(intent);
+        this.finish();
+    }
+
+    public void closeWindow(View view) {
         this.finish();
     }
 }
