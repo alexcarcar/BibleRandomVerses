@@ -24,30 +24,13 @@ public class MainActivity extends AppCompatActivity {
     private long phraseSelected = -1;
     private boolean favoriteClicked = false;
 
-    public static String readLine(InputStream source) {
-        String line = "";
-        char c;
-        try {
-            do {
-                int i = source.read();
-                if (i == -1) break;
-                c = (char) i;
-                if (c != '\n') line += c;
-            } while (c != '\n');
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return line;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         this.bibleFavorites = new BibleFavorites(this);
-        setContentView(R.layout.activity_main);
         txtPassage = (TextView) findViewById(R.id.text_box);
-
         try {
             Intent intent = getIntent();
             phraseSelected = intent.getExtras().getLong("phraseSelected", -1);
@@ -78,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             favorite = bibleFavorites.isFavorite(pickStart);
-            if (menu != null) {
-                MenuItem item = menu.findItem(R.id.favClick);
+            if (this.menu != null) {
+                MenuItem item = this.menu.findItem(R.id.favClick);
                 if (item != null) {
                     item.setIcon(favorite ? R.drawable.ic_fav_on : R.drawable.ic_fav_off);
                 }
@@ -132,9 +115,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         this.menu = menu;
+        if (this.menu != null) {
+            MenuItem item = this.menu.findItem(R.id.favClick);
+            if (item != null) {
+                item.setIcon(favorite ? R.drawable.ic_fav_on : R.drawable.ic_fav_off);
+            }
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
+    // ================================ Menu Actions ===========================
     public void pickPassage(MenuItem item) {
         displayPassage();
     }
@@ -146,5 +136,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void clearFavorites(MenuItem item) {
         bibleFavorites.clear();
+    }
+
+    // ==========================================================================
+
+    public static String readLine(InputStream source) {
+        String line = "";
+        char c;
+        try {
+            do {
+                int i = source.read();
+                if (i == -1) break;
+                c = (char) i;
+                if (c != '\n') line += c;
+            } while (c != '\n');
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return line;
     }
 }

@@ -26,10 +26,10 @@ public class FavoritesActivity extends ListActivity {
         for (Long id : favoriteIds) {
             favorites.add(BibleFavorites.title(id));
         }
-        Activity view = new Activity();
+/*        Activity view = new Activity();
         view.setContentView(R.layout.list_close_row);
         TextView footer = (TextView) view.findViewById(R.id.closeFavorites);
-        getListView().addFooterView(footer);
+        getListView().addFooterView(footer);*/
         setListAdapter(new ArrayAdapter<>(this, R.layout.activity_favorites, R.id.favorites, favorites));
     }
 
