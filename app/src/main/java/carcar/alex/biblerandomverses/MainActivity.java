@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -24,6 +26,22 @@ public class MainActivity extends AppCompatActivity {
     private long phraseSelected = -1;
     private boolean favoriteClicked = false;
 
+    public static String readLine(InputStream source) {
+        String line = "";
+        char c;
+        try {
+            do {
+                int i = source.read();
+                if (i == -1) break;
+                c = (char) i;
+                if (c != '\n') line += c;
+            } while (c != '\n');
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return line;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +57,43 @@ public class MainActivity extends AppCompatActivity {
             favoriteClicked = false;
         }
         displayPassage();
+
+        txtPassage.setOnTouchListener(new OnTouchListener() {
+            float x1 = 0, y1 = 0, t1 = 0, x2 = 0, y2 = 0, t2 = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x1 = event.getX();
+                        y1 = event.getY();
+                        t1 = System.currentTimeMillis();
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        x2 = event.getX();
+                        y2 = event.getY();
+                        t2 = System.currentTimeMillis();
+                        if (x1 > x2) {
+                            goBackward();
+                        } else if (x2 > x1) {
+                            goForward();
+                        }
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
-    public String getPassage() {
+    public String getPassage(long bookmark) {
         String passage = "";
         try {
             InputStream source = this.getResources().openRawResource(R.raw.all);
             long n = FILE_SIZE - SIZE;
             long pickStart = (long) Math.floor(Math.random() * n);
+            if (bookmark != -1)
+                pickStart = bookmark;
 
             if (favoriteClicked) {
                 pickStart = phraseSelected;
@@ -83,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayPassage() {
-        txtPassage.setText(getPassage());
+        txtPassage.setText(getPassage(-1));
     }
 
     public void pickPassage(View view) {
@@ -128,11 +175,6 @@ public class MainActivity extends AppCompatActivity {
         displayPassage();
     }
 
-    public void pickFavorites(MenuItem item) {
-        Intent intent = new Intent(this, FavoritesActivity.class);
-        startActivity(intent);
-    }
-
 //    public void clearFavorites(MenuItem item) {
 //        bibleFavorites.clear();
 //        favorite = false;
@@ -141,19 +183,34 @@ public class MainActivity extends AppCompatActivity {
 
     // ==========================================================================
 
-    public static String readLine(InputStream source) {
-        String line = "";
-        char c;
-        try {
-            do {
-                int i = source.read();
-                if (i == -1) break;
-                c = (char) i;
-                if (c != '\n') line += c;
-            } while (c != '\n');
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return line;
+    public void pickFavorites(MenuItem item) {
+        Intent intent = new Intent(this, FavoritesActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    public void goForward() {
+        long bookmark = favoriteIndex + SIZE;
+        long max = FILE_SIZE - SIZE;
+        if (bookmark > max)
+            getPassage(max);
+        else
+            getPassage(bookmark);
+    }
+
+    public void goBackward() {
+        long bookmark = favoriteIndex - SIZE;
+        if (bookmark < 0)
+            getPassage(0);
+        else
+            getPassage(bookmark);
+    }
+
+    public void pickForward(MenuItem item) {
+        goForward();
+    }
+
+    public void pickBackward(MenuItem item) {
+        goBackward();
     }
 }

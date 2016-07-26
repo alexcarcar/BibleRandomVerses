@@ -13,4 +13,6 @@
     <string name="fav_instructions">Select favorite passages using the star tag. To remove items, go to a favorite passage and touch the selected star tag.\n\nEnjoy the scripture by collecting your favorite passages for future meditation!</string>
     <string name="go_back">Go Back</string>
     <string name="close">Close</string>
+    <string name="pick_forward">Previous Passage</string>
+    <string name="pick_backward">Next Passage</string>
 </resources>
