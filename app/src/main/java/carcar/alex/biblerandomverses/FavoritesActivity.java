@@ -43,6 +43,7 @@ public class FavoritesActivity extends ListActivity {
         long phraseSelected = favoriteIds.get(position-1);
         intent.putExtra("phraseSelected", phraseSelected);
         startActivity(intent);
+        this.finish();
     }
 
     public void closeWindow(View view) {
