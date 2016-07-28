@@ -38,9 +38,9 @@
         android:onClick="pickBackward"
         android:title="@string/pick_backward" />
 
-    <!--<item
+    <item
         android:id="@+id/clearFavoritesMenuItem"
         android:onClick="clearFavorites"
-        android:title="@string/clear_favorites" />-->
+        android:title="@string/clear_favorites" />
 
 </menu>
