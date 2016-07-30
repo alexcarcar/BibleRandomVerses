@@ -16,35 +16,20 @@ import java.io.InputStream;
 public class MainActivity extends AppCompatActivity {
 
     private static final long FILE_SIZE = 4289338;
-    private static final long SIZE = 2000;
+    private static final long LINES = 5;
+    private static final long SIZE = LINES * 100;
     private static final long MIN_SIZE = 0;
     private static final long MAX_SIZE = FILE_SIZE - SIZE;
-    private static final long LINES = 5;
+
 
     private static TextView txtPassage;
     private boolean favorite = false;
     private Long favoriteIndex = 0L;
     private BibleFavorites bibleFavorites = null;
     private Menu menu = null;
-    private long phraseSelected = -1;
     private long pickStart = -1;
-    private boolean favoriteClicked = false;
 
-    public static String readLine(InputStream source) {
-        String line = "";
-        char c;
-        try {
-            do {
-                int i = source.read();
-                if (i == -1) break;
-                c = (char) i;
-                if (c != '\n') line += c;
-            } while (c != '\n');
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return line;
-    }
+    public static long favoriteBookmark = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,27 +38,24 @@ public class MainActivity extends AppCompatActivity {
 
         this.bibleFavorites = new BibleFavorites(this);
         txtPassage = (TextView) findViewById(R.id.text_box);
-        try {
-            Intent intent = getIntent();
-            phraseSelected = intent.getExtras().getLong("phraseSelected", -1);
-            if (phraseSelected != -1) favoriteClicked = true;
-        } catch (Exception ex) {
-            favoriteClicked = false;
-        }
         displayPassage();
-        wireupSwipe();
+        swipeLeftRightListener();
     }
 
-    private String getPassage(long goToPassage) {
-        if (goToPassage == -1) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (favoriteBookmark != -1) {
+            displayPassage(favoriteBookmark);
+            favoriteBookmark = -1;
+        }
+    }
+
+    private String getPassage(long index) {
+        if (index == -1) {
             pickStart = (long) Math.floor(Math.random() * MAX_SIZE);
         } else {
-            pickStart = goToPassage;
-        }
-
-        if (favoriteClicked) {
-            pickStart = phraseSelected;
-            favoriteClicked = false;
+            pickStart = index;
         }
         favoriteIndex = pickStart;
         displayTitle();
@@ -132,45 +114,48 @@ public class MainActivity extends AppCompatActivity {
         txtPassage.setText(getPassage(-1));
     }
 
-    public void clearFavorites(MenuItem item) {
-        bibleFavorites.clear();
-        favorite = false;
-        setFavoritesIcon();
-    }
-
-    public void pickForward(MenuItem item) {
-        goForward();
-    }
-
-    public void pickBackward(MenuItem item) {
-        goBackward();
-    }
-
-    // ========================== Utilities ===============================
+//    public void clearFavorites(MenuItem item) {
+//        bibleFavorites.clear();
+//        favorite = false;
+//        setFavoritesIcon();
+//    }
 
     public void pickFavorites(MenuItem item) {
         Intent intent = new Intent(this, FavoritesActivity.class);
         startActivity(intent);
-        this.finish();
     }
 
-    public void goForward() {
-        long goToPassage = pickStart + SIZE;
-        if (goToPassage > MAX_SIZE)
-            getPassage(MAX_SIZE);
+    // ========================== Navigation ===============================
+
+    public void nextPassage() {
+        long index = pickStart + SIZE;
+        if (index > MAX_SIZE)
+            displayPassage(MAX_SIZE);
         else
-            getPassage(goToPassage);
+            displayPassage(index);
     }
 
-    public void goBackward() {
-        long goToPassage = pickStart - SIZE;
-        if (goToPassage < MIN_SIZE)
-            getPassage(MIN_SIZE);
+    public void previousPassage() {
+        long index = pickStart - SIZE;
+        if (index < MIN_SIZE)
+            displayPassage(MIN_SIZE);
         else
-            getPassage(goToPassage);
+            displayPassage(index);
     }
 
-    private void wireupSwipe() {
+//    public void previousPassageClick(View view) {
+//        previousPassage();
+//    }
+//
+//    public void nextPassageClick(View view) {
+//        nextPassage();
+//    }
+
+    public void displayPassage(long index) {
+        txtPassage.setText(getPassage(index));
+    }
+
+    private void swipeLeftRightListener() {
         txtPassage.setOnTouchListener(new OnTouchListener() {
             float x1 = -1, y1 = -1;
             float x2 = -1, y2 = -1;
@@ -185,11 +170,10 @@ public class MainActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                         x2 = event.getX();
                         y2 = event.getY();
-                        if (Math.abs(x2 - x1) < 10) return true;
                         if (x2 > x1) {
-                            goBackward();
+                            previousPassage();
                         } else {
-                            goForward();
+                            nextPassage();
                         }
                         return true;
                 }
@@ -197,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    // ========================== Utilities ===============================
+
 
     private void displayTitle() {
         TextView scriptureTitle = (TextView) findViewById(R.id.pick);
@@ -223,4 +209,22 @@ public class MainActivity extends AppCompatActivity {
         }
         return passage;
     }
+
+    public static String readLine(InputStream source) {
+        String line = "";
+        char c;
+        try {
+            do {
+                int i = source.read();
+                if (i == -1) break;
+                c = (char) i;
+                if (c != '\n') line += c;
+            } while (c != '\n');
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return line;
+    }
+
+
 }

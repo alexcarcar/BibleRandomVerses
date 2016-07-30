@@ -28,19 +28,9 @@
         android:onClick="pickPassage"
         android:title="@string/pick_passage" />
 
-    <item
-        android:id="@+id/pickForwardMenuItem"
-        android:onClick="pickForward"
-        android:title="@string/pick_forward" />
-
-    <item
-        android:id="@+id/pickBackwardMenuItem"
-        android:onClick="pickBackward"
-        android:title="@string/pick_backward" />
-
-    <item
-        android:id="@+id/clearFavoritesMenuItem"
-        android:onClick="clearFavorites"
-        android:title="@string/clear_favorites" />
+    <!--<item-->
+    <!--android:id="@+id/clearFavoritesMenuItem"-->
+    <!--android:onClick="clearFavorites"-->
+    <!--android:title="@string/clear_favorites" />-->
 
 </menu>

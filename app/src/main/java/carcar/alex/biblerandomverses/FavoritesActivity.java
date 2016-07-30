@@ -2,7 +2,6 @@ package carcar.alex.biblerandomverses;
 
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +18,11 @@ public class FavoritesActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View headerView = ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+        View headerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.activity_favorites_header, this.getListView(), false);
         this.getListView().addHeaderView(headerView);
 
-        View footerView = ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+        View footerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.activity_favorites_footer, this.getListView(), false);
         this.getListView().addFooterView(footerView);
 
@@ -39,10 +38,7 @@ public class FavoritesActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Intent intent = new Intent(v.getContext(), MainActivity.class);
-        long phraseSelected = favoriteIds.get(position-1);
-        intent.putExtra("phraseSelected", phraseSelected);
-        startActivity(intent);
+        MainActivity.favoriteBookmark = favoriteIds.get(position - 1);
         this.finish();
     }
 
