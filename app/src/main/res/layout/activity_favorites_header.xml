@@ -15,7 +15,7 @@
         android:id="@+id/favoritesTitle"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:background="@mipmap/blue_torn"
+        android:background="@mipmap/torn"
         android:text="@string/pick_favorites"
         android:textSize="20sp" />
 

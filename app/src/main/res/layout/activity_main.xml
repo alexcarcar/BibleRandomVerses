@@ -17,7 +17,7 @@
         android:id="@+id/pick"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:background="@mipmap/blue_torn"
+        android:background="@mipmap/torn"
         android:onClick="pickPassage"
         android:text="@string/pick_passage"
         android:textSize="20sp" />

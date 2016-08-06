@@ -7,11 +7,25 @@
     tools:context=".MainActivity">
 
     <item
+        android:id="@+id/prevClick"
+        android:icon="@drawable/ic_arrow_left"
+        android:onClick="previousPassageClick"
+        android:title="@string/previous_passage"
+        myapp:showAsAction="always" />
+
+    <item
+        android:id="@+id/nextClick"
+        android:icon="@drawable/ic_arrow_right"
+        android:onClick="nextPassageClick"
+        android:title="@string/next_passage"
+        myapp:showAsAction="always" />
+
+    <item
         android:id="@+id/favClick"
         android:icon="@drawable/ic_fav_off"
         android:onClick="onFavClick"
         android:title="@string/add_favorite"
-        myapp:showAsAction="ifRoom" />
+        myapp:showAsAction="always" />
 
     <item
         android:id="@+id/aboutMenuItem"

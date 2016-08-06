@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -39,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         this.bibleFavorites = new BibleFavorites(this);
         txtPassage = (TextView) findViewById(R.id.text_box);
         displayPassage();
-        swipeLeftRightListener();
     }
 
     @Override
@@ -143,44 +140,18 @@ public class MainActivity extends AppCompatActivity {
             displayPassage(index);
     }
 
-//    public void previousPassageClick(View view) {
-//        previousPassage();
-//    }
-//
-//    public void nextPassageClick(View view) {
-//        nextPassage();
-//    }
+    public void previousPassageClick(MenuItem item) {
+        previousPassage();
+    }
+
+    public void nextPassageClick(MenuItem item) {
+        nextPassage();
+    }
 
     public void displayPassage(long index) {
         txtPassage.setText(getPassage(index));
     }
 
-    private void swipeLeftRightListener() {
-        txtPassage.setOnTouchListener(new OnTouchListener() {
-            float x1 = -1, y1 = -1;
-            float x2 = -1, y2 = -1;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        x1 = event.getX();
-                        y1 = event.getY();
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        x2 = event.getX();
-                        y2 = event.getY();
-                        if (x2 > x1) {
-                            previousPassage();
-                        } else {
-                            nextPassage();
-                        }
-                        return true;
-                }
-                return false;
-            }
-        });
-    }
     // ========================== Utilities ===============================
 
 
@@ -225,6 +196,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return line;
     }
-
-
 }
