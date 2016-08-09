@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String getPassage(long index) {
+    private String getPassage(long index, boolean exact) {
         if (index == -1) {
             pickStart = (long) Math.floor(Math.random() * MAX_SIZE);
         } else {
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         }
         favoriteIndex = pickStart;
         displayTitle();
-        return readPassage(pickStart);
+        return readPassage(pickStart, exact);
     }
 
     @Override
@@ -107,8 +107,11 @@ public class MainActivity extends AppCompatActivity {
         displayPassage();
     }
 
+    public void gotoPassage(long index, boolean exact) {
+        txtPassage.setText(getPassage(index, exact));
+    }
     public void displayPassage() {
-        txtPassage.setText(getPassage(-1));
+        gotoPassage(-1, false);
     }
 
 //    public void clearFavorites(MenuItem item) {
@@ -120,6 +123,14 @@ public class MainActivity extends AppCompatActivity {
     public void pickFavorites(MenuItem item) {
         Intent intent = new Intent(this, FavoritesActivity.class);
         startActivity(intent);
+    }
+
+    public void pickOldTestament(MenuItem item) {
+        gotoPassage(0, true);
+    }
+
+    public void pickNewTestament(MenuItem item) {
+        gotoPassage(3310386, true);
     }
 
     // ========================== Navigation ===============================
@@ -135,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     public void previousPassage() {
         long index = pickStart - SIZE;
         if (index < MIN_SIZE)
-            displayPassage(MIN_SIZE);
+            displayPassage(MIN_SIZE, true);
         else
             displayPassage(index);
     }
@@ -149,7 +160,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayPassage(long index) {
-        txtPassage.setText(getPassage(index));
+        txtPassage.setText(getPassage(index, false));
+    }
+
+    public void displayPassage(long index, boolean exact) {
+        txtPassage.setText(getPassage(index, exact));
     }
 
     // ========================== Utilities ===============================
@@ -164,12 +179,14 @@ public class MainActivity extends AppCompatActivity {
         setFavoritesIcon();
     }
 
-    private String readPassage(long pickStart) {
+    private String readPassage(long pickStart, boolean exact) {
         String passage = "";
         try {
             InputStream source = this.getResources().openRawResource(R.raw.all);
             if (source.skip(pickStart) < 0) return "";
-            readLine(source);
+            if (!exact) {
+                readLine(source);
+            }
             for (int i = 0; i < LINES; i++) {
                 passage += readLine(source);
                 passage += "\n\n";
@@ -196,4 +213,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return line;
     }
+
 }

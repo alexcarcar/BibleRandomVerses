@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Bible Verses</string>
+    <string name="app_name">Bible Passages</string>
+    <string name="app_shortname">Passages</string>
     <string name="pick_passage">Random Passage</string>
     <string name="menuAbout">About</string>
     <string name="app_version">Version: 2.0</string>
@@ -15,4 +16,6 @@
     <string name="close">Close</string>
     <string name="next_passage">Next Passage</string>
     <string name="previous_passage">Previous Passage</string>
+    <string name="pick_new_testament">New Testament</string>
+    <string name="pick_old_testament">Old Testament</string>
 </resources>

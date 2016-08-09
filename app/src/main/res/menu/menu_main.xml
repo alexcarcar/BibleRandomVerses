@@ -42,6 +42,15 @@
         android:onClick="pickPassage"
         android:title="@string/pick_passage" />
 
+    <item
+        android:id="@+id/pickOldTestamentMenuItem"
+        android:onClick="pickOldTestament"
+        android:title="@string/pick_old_testament" />
+
+    <item
+        android:id="@+id/pickNewTestamentMenuItem"
+        android:onClick="pickNewTestament"
+        android:title="@string/pick_new_testament" />
     <!--<item-->
     <!--android:id="@+id/clearFavoritesMenuItem"-->
     <!--android:onClick="clearFavorites"-->
