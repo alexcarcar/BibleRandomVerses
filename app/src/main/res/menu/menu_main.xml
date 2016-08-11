@@ -33,6 +33,11 @@
         android:title="@string/menuAbout" />
 
     <item
+        android:id="@+id/contentsMenuItem"
+        android:onClick="onContentsClick"
+        android:title="@string/menuContents" />
+
+    <item
         android:id="@+id/pickFavoritesMenuItem"
         android:onClick="pickFavorites"
         android:title="@string/pick_favorites" />
@@ -43,6 +48,11 @@
         android:title="@string/pick_passage" />
 
     <item
+        android:id="@+id/pickPsalmProverbMenuItem"
+        android:onClick="pickPsalmProverb"
+        android:title="@string/pick_psalm_proverb" />
+
+    <item
         android:id="@+id/pickOldTestamentMenuItem"
         android:onClick="pickOldTestament"
         android:title="@string/pick_old_testament" />
@@ -51,6 +61,12 @@
         android:id="@+id/pickNewTestamentMenuItem"
         android:onClick="pickNewTestament"
         android:title="@string/pick_new_testament" />
+
+    <item
+        android:id="@+id/pickWebSearchMenuItem"
+        android:onClick="pickWebSearch"
+        android:title="@string/pick_web_search" />
+
     <!--<item-->
     <!--android:id="@+id/clearFavoritesMenuItem"-->
     <!--android:onClick="clearFavorites"-->

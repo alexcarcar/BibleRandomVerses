@@ -1,6 +1,7 @@
 package carcar.alex.biblerandomverses;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -19,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private static final long MIN_SIZE = 0;
     private static final long MAX_SIZE = FILE_SIZE - SIZE;
 
-
+    private long passageSize = 0;
+    private String passageTitle = "";
     private static TextView txtPassage;
     private boolean favorite = false;
     private Long favoriteIndex = 0L;
@@ -87,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onContentsClick(MenuItem item) {
+        Intent intent = new Intent(this, ContentsActivity.class);
+        startActivity(intent);
+    }
+
     public void onFavClick(MenuItem item) {
         favorite = !favorite;
 
@@ -133,10 +140,25 @@ public class MainActivity extends AppCompatActivity {
         gotoPassage(3310386, true);
     }
 
+    public void pickPsalmProverb(MenuItem item) {
+        long startIndex = 2071141;
+        long endIndex = 2386860;
+        long searchSize = endIndex - startIndex;
+        long choosePsalmProverb = startIndex + (long) Math.floor(Math.random() * searchSize);
+        gotoPassage(choosePsalmProverb, false);
+    }
+
+    public void pickWebSearch(MenuItem item) {
+        String url = "https://www.google.com/#q=" + passageTitle;
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+
     // ========================== Navigation ===============================
 
     public void nextPassage() {
-        long index = pickStart + SIZE;
+        long index = pickStart + passageSize;
         if (index > MAX_SIZE)
             displayPassage(MAX_SIZE);
         else
@@ -144,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void previousPassage() {
-        long index = pickStart - SIZE;
+        long index = pickStart - passageSize;
         if (index < MIN_SIZE)
             displayPassage(MIN_SIZE, true);
         else
@@ -169,11 +191,11 @@ public class MainActivity extends AppCompatActivity {
 
     // ========================== Utilities ===============================
 
-
     private void displayTitle() {
         TextView scriptureTitle = (TextView) findViewById(R.id.pick);
         if (scriptureTitle != null) {
-            scriptureTitle.setText(BibleFavorites.title(pickStart));
+            passageTitle = BibleFavorites.title(pickStart);
+            scriptureTitle.setText(passageTitle);
         }
         favorite = bibleFavorites.isFavorite(pickStart);
         setFavoritesIcon();
@@ -181,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String readPassage(long pickStart, boolean exact) {
         String passage = "";
+        String line;
+        passageSize = 0;
         try {
             InputStream source = this.getResources().openRawResource(R.raw.all);
             if (source.skip(pickStart) < 0) return "";
@@ -188,8 +212,10 @@ public class MainActivity extends AppCompatActivity {
                 readLine(source);
             }
             for (int i = 0; i < LINES; i++) {
-                passage += readLine(source);
+                line = readLine(source);
+                passage += line;
                 passage += "\n\n";
+                passageSize += line.length();
             }
             source.close();
         } catch (IOException e) {
@@ -213,5 +239,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return line;
     }
-
 }
