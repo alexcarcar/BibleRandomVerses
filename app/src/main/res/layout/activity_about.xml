@@ -18,7 +18,7 @@
         android:id="@+id/aboutImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:contentDescription="@string/launcher_icon"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher" />
@@ -70,8 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:onClick="closeWindow"
-        android:text="@android:string/ok" />
+        android:text="@string/go_back" />
 
 </LinearLayout>
