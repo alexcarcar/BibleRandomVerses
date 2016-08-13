@@ -1,7 +1,707 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/aboutImageView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:contentDescription="@string/launcher_icon"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/bible_banner" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:onClick="oldTestment"
+            android:text="@string/pick_old_testament"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_gravity="top|center">
+
+                <TextView
+                    android:id="@+id/genesis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="genesis"
+                    android:text="@string/genesis"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/exodus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="exodus"
+                    android:text="@string/exodus"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/leviticus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="leviticus"
+                    android:text="@string/leviticus"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/numbers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="numbers"
+                    android:text="@string/numbers"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/deuteronomy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="deuteronomy"
+                    android:text="@string/deuteronomy"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/joshua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="joshua"
+                    android:text="@string/joshua"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/judges"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="judges"
+                    android:text="@string/judges"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ruth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="ruth"
+                    android:text="@string/ruth"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/samuel1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="samuel1"
+                    android:text="@string/_1_samuel"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/samuel2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="samuel2"
+                    android:text="@string/_2_samuel"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/kings1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="kings1"
+                    android:text="@string/_1_kings"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/kings2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="kings2"
+                    android:text="@string/_2_kings"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/chronicles1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="chronicles1"
+                    android:text="@string/_1_chronicles"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/chronicles2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="chronicles2"
+                    android:text="@string/_2_chronicles"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ezra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="ezra"
+                    android:text="@string/ezra"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/nehemiah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="nehemiah"
+                    android:text="@string/nehemiah"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/estherGreek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="estherGreek"
+                    android:text="@string/esther_greek"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/esther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="esther"
+                    android:text="@string/esther"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/job"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="job"
+                    android:text="@string/job"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/psalms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="psalms"
+                    android:text="@string/psalms"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_gravity="top|center">
+
+                <TextView
+                    android:id="@+id/proverbs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="proverbs"
+                    android:text="@string/proverbs"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ecclesiastes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="ecclesiastes"
+                    android:text="@string/ecclesiastes"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/songOfSolomon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="songOfSolomon"
+                    android:text="@string/song_of_solomon"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/isaiah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="isaiah"
+                    android:text="@string/isaiah"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/jeremiah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="jeremiah"
+                    android:text="@string/jeremiah"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/lamentations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="lamentations"
+                    android:text="@string/lamentations"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ezekiel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="ezekiel"
+                    android:text="@string/ezekiel"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/daniel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="daniel"
+                    android:text="@string/daniel"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/hosea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="hosea"
+                    android:text="@string/hosea"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/joel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="joel"
+                    android:text="@string/joel"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/amos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="amos"
+                    android:text="@string/amos"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/obadiah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="obadiah"
+                    android:text="@string/obadiah"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/jonah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="jonah"
+                    android:text="@string/jonah"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/micah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="micah"
+                    android:text="@string/micah"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/nahum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="nahum"
+                    android:text="@string/nahum"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/habakkuk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="habakkuk"
+                    android:text="@string/habakkuk"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/zephaniah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="zephaniah"
+                    android:text="@string/zephaniah"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/haggai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="haggai"
+                    android:text="@string/haggai"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/zechariah"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="zechariah"
+                    android:text="@string/zechariah"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/malachi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="malachi"
+                    android:text="@string/malachi"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:onClick="newTestment"
+            android:text="@string/pick_new_testament"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_gravity="top|center">
+
+                <TextView
+                    android:id="@+id/matthew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="matthew"
+                    android:text="@string/matthew"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/mark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="mark"
+                    android:text="@string/mark"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/luke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="luke"
+                    android:text="@string/luke"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/john"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="john"
+                    android:text="@string/john"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/acts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="acts"
+                    android:text="@string/acts_of_the_apostles"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/romans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="romans"
+                    android:text="@string/romans"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/corinthians1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="corinthians1"
+                    android:text="@string/_1_corinthians"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/corinthians2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="corinthians2"
+                    android:text="@string/_2_corinthians"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/galatians"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="galatians"
+                    android:text="@string/galatians"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/ephesians"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="ephesians"
+                    android:text="@string/ephesians"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/philippians"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="philippians"
+                    android:text="@string/philippians"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/colossians"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="colossians"
+                    android:text="@string/colossians"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/thessalonians1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="thessalonians1"
+                    android:text="@string/_1_thessalonians"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/thessalonians2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="thessalonians2"
+                    android:text="@string/_2_thessalonians"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_gravity="top|center">
+
+                <TextView
+                    android:id="@+id/timothy1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="timothy1"
+                    android:text="@string/_1_timothy"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/timothy2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="timothy2"
+                    android:text="@string/_2_timothy"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/titus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="titus"
+                    android:text="@string/titus"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/philemon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="philemon"
+                    android:text="@string/philemon"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/hebrews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="hebrews"
+                    android:text="@string/hebrews"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/james"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="james"
+                    android:text="@string/james"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/peter1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="peter1"
+                    android:text="@string/_1_peter"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/peter2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="peter2"
+                    android:text="@string/_2_peter"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/john1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="john1"
+                    android:text="@string/_1_john"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/john2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="john2"
+                    android:text="@string/_2_john"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/john3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="john3"
+                    android:text="@string/_3_john"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/jude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="jude"
+                    android:text="@string/jude"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/revelation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="revelation"
+                    android:text="@string/revelation"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:onClick="closeWindow"
+            android:text="@string/close" />
+    </LinearLayout>
+</ScrollView>

@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onContentsClick(MenuItem item) {
-        Intent intent = new Intent(this, ContentsActivity.class);
+        Intent intent = new Intent(this, TableOfContents.class);
         startActivity(intent);
     }
 

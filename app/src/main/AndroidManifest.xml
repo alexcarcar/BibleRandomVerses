@@ -43,6 +43,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="carcar.alex.biblerandomverses.MainActivity" />
         </activity>
+        <activity
+            android:name=".TableOfContents"
+            android:label="@string/table_of_contents"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="carcar.alex.biblerandomverses.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
