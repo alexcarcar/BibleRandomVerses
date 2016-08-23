@@ -13,7 +13,7 @@
     <string name="clear_favorites">Clear Favorites</string>
     <string name="fav_instructions">Select favorite passages using the star tag. To remove items, go to a favorite passage and touch the selected star tag.\n\nEnjoy the scripture by collecting your favorite passages for future meditation!</string>
     <string name="go_back">Go Back</string>
-    <string name="close">Close</string>
+    <string name="close">Go Back</string>
     <string name="next_passage">Next Passage</string>
     <string name="previous_passage">Previous Passage</string>
     <string name="pick_new_testament">New Testament</string>
@@ -26,7 +26,7 @@
     <string name="mark">Mark</string>
     <string name="luke">Luke</string>
     <string name="john">John</string>
-    <string name="acts_of_the_apostles">Acts of the Apostles</string>
+    <string name="acts_of_the_apostles">Acts</string>
     <string name="romans">Romans</string>
     <string name="_1_corinthians">1 Corinthians</string>
     <string name="_2_corinthians">2 Corinthians</string>

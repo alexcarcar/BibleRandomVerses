@@ -17,7 +17,7 @@ public class TableOfContents extends AppCompatActivity {
     }
 
     private void gotoPassage(long index) {
-        MainActivity.favoriteBookmark = index;
+        MainActivity.contentsBookmark = index;
         this.finish();
     }
 

@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private long pickStart = -1;
 
     public static long favoriteBookmark = -1;
+    public static long contentsBookmark = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         if (favoriteBookmark != -1) {
             displayPassage(favoriteBookmark);
             favoriteBookmark = -1;
+        }
+
+        if (contentsBookmark != -1) {
+            gotoPassage(contentsBookmark, true);
+            contentsBookmark = -1;
         }
     }
 
