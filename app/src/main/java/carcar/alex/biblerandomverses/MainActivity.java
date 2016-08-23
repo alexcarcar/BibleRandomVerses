@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < LINES; i++) {
                 line = readLine(source);
                 if (firstTime) {
-                    passage += "(" + BibleFavorites.title(currentIndex).toUpperCase() + ", KJV)\n\n";
+                    passage += "(" + BibleFavorites.title(currentIndex).toUpperCase() + ")\n\n";
                     firstTime = false;
                 } else if (line.startsWith("1 ")) {
                     passage += "(" + BibleFavorites.title(currentIndex + line.length()).toUpperCase() + ", KJV)\n\n";
