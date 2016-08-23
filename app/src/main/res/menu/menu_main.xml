@@ -37,10 +37,10 @@
         android:onClick="pickFavorites"
         android:title="@string/pick_favorites" />
 
-    <item
-        android:id="@+id/pickPassageMenuItem"
-        android:onClick="pickPassage"
-        android:title="@string/pick_passage" />
+    <!--<item-->
+        <!--android:id="@+id/pickPassageMenuItem"-->
+        <!--android:onClick="pickPassage"-->
+        <!--android:title="@string/pick_passage" />-->
 
     <item
         android:id="@+id/contentsMenuItem"
@@ -57,10 +57,10 @@
         android:onClick="pickNewTestament"
         android:title="@string/pick_new_testament" />
 
-    <item
-        android:id="@+id/pickPsalmProverbMenuItem"
-        android:onClick="pickPsalmProverb"
-        android:title="@string/pick_psalm_proverb" />
+    <!--<item-->
+        <!--android:id="@+id/pickPsalmProverbMenuItem"-->
+        <!--android:onClick="pickPsalmProverb"-->
+        <!--android:title="@string/pick_psalm_proverb" />-->
 
     <item
         android:id="@+id/pickWebSearchMenuItem"

@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         displayPassage();
     }
 
-    public void pickPassage(MenuItem item) {
-        displayPassage();
-    }
+//    public void pickPassage(MenuItem item) {
+//        displayPassage();
+//    }
 
     public void gotoPassage(long index, boolean exact) {
         txtPassage.setText(getPassage(index, exact));
@@ -140,13 +140,13 @@ public class MainActivity extends AppCompatActivity {
         gotoPassage(3310386, true);
     }
 
-    public void pickPsalmProverb(MenuItem item) {
-        long startIndex = 2071141;
-        long endIndex = 2386860;
-        long searchSize = endIndex - startIndex;
-        long choosePsalmProverb = startIndex + (long) Math.floor(Math.random() * searchSize);
-        gotoPassage(choosePsalmProverb, false);
-    }
+//    public void pickPsalmProverb(MenuItem item) {
+//        long startIndex = 2071141;
+//        long endIndex = 2386860;
+//        long searchSize = endIndex - startIndex;
+//        long choosePsalmProverb = startIndex + (long) Math.floor(Math.random() * searchSize);
+//        gotoPassage(choosePsalmProverb, false);
+//    }
 
     public void pickWebSearch(MenuItem item) {
         String url = "https://www.google.com/#q=" + passageTitle;
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         TextView scriptureTitle = (TextView) findViewById(R.id.pick);
         if (scriptureTitle != null) {
             passageTitle = BibleFavorites.title(pickStart);
-            scriptureTitle.setText(passageTitle);
+            // scriptureTitle.setText(passageTitle);
         }
         favorite = bibleFavorites.isFavorite(pickStart);
         setFavoritesIcon();
@@ -205,17 +205,26 @@ public class MainActivity extends AppCompatActivity {
         String passage = "";
         String line;
         passageSize = 0;
+        long currentIndex = pickStart;
+        boolean firstTime = true;
         try {
             InputStream source = this.getResources().openRawResource(R.raw.all);
             if (source.skip(pickStart) < 0) return "";
             if (!exact) {
-                readLine(source);
+                currentIndex += readLine(source).length();
             }
             for (int i = 0; i < LINES; i++) {
                 line = readLine(source);
+                if (firstTime) {
+                    passage += "(" + BibleFavorites.title(currentIndex).toUpperCase() + ", KJV)\n\n";
+                    firstTime = false;
+                } else if (line.startsWith("1 ")) {
+                    passage += "(" + BibleFavorites.title(currentIndex + line.length()).toUpperCase() + ", KJV)\n\n";
+                }
                 passage += line;
                 passage += "\n\n";
                 passageSize += line.length();
+                currentIndex += line.length();
             }
             source.close();
         } catch (IOException e) {
