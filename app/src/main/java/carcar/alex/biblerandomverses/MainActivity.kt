@@ -1,257 +1,234 @@
-package carcar.alex.biblerandomverses;
+package carcar.alex.biblerandomverses
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import carcar.alex.biblerandomverses.databinding.ActivityMainBinding
+import java.io.IOException
+import java.io.InputStream
+import kotlin.math.floor
 
-import java.io.IOException;
-import java.io.InputStream;
+class MainActivity : AppCompatActivity() {
 
-public class MainActivity extends AppCompatActivity {
+    private lateinit var binding: ActivityMainBinding
+    private var passageSize = 0L
+    private var passageTitle = ""
+    private var favorite = false
+    private var favoriteIndex = 0L
+    private lateinit var bibleFavorites: BibleFavorites
+    private var menu: Menu? = null
+    private var pickStart = -1L
 
-    private static final long FILE_SIZE = 4289338;
-    private static final long LINES = 5;
-    private static final long SIZE = LINES * 100;
-    private static final long MIN_SIZE = 0;
-    private static final long MAX_SIZE = FILE_SIZE - SIZE;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    private long passageSize = 0;
-    private String passageTitle = "";
-    private static TextView txtPassage;
-    private boolean favorite = false;
-    private Long favoriteIndex = 0L;
-    private BibleFavorites bibleFavorites = null;
-    private Menu menu = null;
-    private long pickStart = -1;
-
-    public static long favoriteBookmark = -1;
-    public static long contentsBookmark = -1;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        this.bibleFavorites = new BibleFavorites(this);
-        txtPassage = (TextView) findViewById(R.id.text_box);
-        displayPassage();
+        bibleFavorites = BibleFavorites(this)
+        displayPassage()
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (favoriteBookmark != -1) {
-            displayPassage(favoriteBookmark);
-            favoriteBookmark = -1;
+    override fun onResume() {
+        super.onResume()
+        if (favoriteBookmark != -1L) {
+            displayPassage(favoriteBookmark)
+            favoriteBookmark = -1L
         }
 
-        if (contentsBookmark != -1) {
-            gotoPassage(contentsBookmark, true);
-            contentsBookmark = -1;
+        if (contentsBookmark != -1L) {
+            gotoPassage(contentsBookmark, true)
+            contentsBookmark = -1L
         }
     }
 
-    private String getPassage(long index, boolean exact) {
-        if (index == -1) {
-            pickStart = (long) Math.floor(Math.random() * MAX_SIZE);
+    private fun getPassage(index: Long, exact: Boolean): String {
+        pickStart = if (index == -1L) {
+            floor(Math.random() * MAX_SIZE).toLong()
         } else {
-            pickStart = index;
+            index
         }
-        favoriteIndex = pickStart;
-        displayTitle();
-        return readPassage(pickStart, exact);
+        favoriteIndex = pickStart
+        displayTitle()
+        return readPassage(pickStart, exact)
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        this.menu = menu;
-        setFavoritesIcon();
-        return super.onPrepareOptionsMenu(menu);
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        this.menu = menu
+        setFavoritesIcon()
+        return super.onPrepareOptionsMenu(menu)
     }
 
-    private void setFavoritesIcon() {
-        if (this.menu != null) {
-            MenuItem item = this.menu.findItem(R.id.favClick);
-            if (item != null) {
-                item.setIcon(favorite ? R.drawable.ic_fav_on : R.drawable.ic_fav_off);
-            }
+    private fun setFavoritesIcon() {
+        menu?.findItem(R.id.favClick)?.let { item ->
+            item.setIcon(if (favorite) R.drawable.ic_fav_on else R.drawable.ic_fav_off)
         }
     }
 
     // ================================ Menu Actions ===========================
-    public void onAboutClick(MenuItem item) {
-        Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
+    fun onAboutClick(item: MenuItem) {
+        val intent = Intent(this, AboutActivity::class.java)
+        startActivity(intent)
     }
 
-    public void onContentsClick(MenuItem item) {
-        Intent intent = new Intent(this, TableOfContents.class);
-        startActivity(intent);
+    fun onContentsClick(item: MenuItem) {
+        val intent = Intent(this, TableOfContents::class.java)
+        startActivity(intent)
     }
 
-    public void onFavClick(MenuItem item) {
-        favorite = !favorite;
+    fun onFavClick(item: MenuItem) {
+        favorite = !favorite
 
         if (favorite) {
-            item.setIcon(R.drawable.ic_fav_on);
-            bibleFavorites.addFavorite(favoriteIndex);
+            item.setIcon(R.drawable.ic_fav_on)
+            bibleFavorites.addFavorite(favoriteIndex)
         } else {
-            item.setIcon(R.drawable.ic_fav_off);
-            bibleFavorites.removeFavorite(favoriteIndex);
+            item.setIcon(R.drawable.ic_fav_off)
+            bibleFavorites.removeFavorite(favoriteIndex)
         }
     }
 
-    public void pickPassage(View view) {
-        displayPassage();
+    fun pickPassage(view: View) {
+        displayPassage()
     }
 
-//    public void pickPassage(MenuItem item) {
-//        displayPassage();
-//    }
-
-    public void gotoPassage(long index, boolean exact) {
-        txtPassage.setText(getPassage(index, exact));
-    }
-    public void displayPassage() {
-        gotoPassage(-1, false);
+    fun gotoPassage(index: Long, exact: Boolean) {
+        binding.textBox.text = getPassage(index, exact)
     }
 
-//    public void clearFavorites(MenuItem item) {
-//        bibleFavorites.clear();
-//        favorite = false;
-//        setFavoritesIcon();
-//    }
-
-    public void pickFavorites(MenuItem item) {
-        Intent intent = new Intent(this, FavoritesActivity.class);
-        startActivity(intent);
+    fun displayPassage() {
+        gotoPassage(-1, false)
     }
 
-    public void pickOldTestament(MenuItem item) {
-        gotoPassage(0, true);
+    fun pickFavorites(item: MenuItem) {
+        val intent = Intent(this, FavoritesActivity::class.java)
+        startActivity(intent)
     }
 
-    public void pickNewTestament(MenuItem item) {
-        gotoPassage(3310386, true);
+    fun pickOldTestament(item: MenuItem) {
+        gotoPassage(0, true)
     }
 
-//    public void pickPsalmProverb(MenuItem item) {
-//        long startIndex = 2071141;
-//        long endIndex = 2386860;
-//        long searchSize = endIndex - startIndex;
-//        long choosePsalmProverb = startIndex + (long) Math.floor(Math.random() * searchSize);
-//        gotoPassage(choosePsalmProverb, false);
-//    }
+    fun pickNewTestament(item: MenuItem) {
+        gotoPassage(3310386, true)
+    }
 
-    public void pickWebSearch(MenuItem item) {
-        String url = "https://www.google.com/#q=" + passageTitle;
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
+    fun pickWebSearch(item: MenuItem) {
+        val url = "https://www.google.com/#q=$passageTitle"
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
     }
 
     // ========================== Navigation ===============================
 
-    public void nextPassage() {
-        long index = pickStart + passageSize;
+    fun nextPassage() {
+        val index = pickStart + passageSize
         if (index > MAX_SIZE)
-            displayPassage(MAX_SIZE);
+            displayPassage(MAX_SIZE)
         else
-            displayPassage(index);
+            displayPassage(index)
     }
 
-    public void previousPassage() {
-        long index = pickStart - passageSize;
+    fun previousPassage() {
+        val index = pickStart - passageSize
         if (index < MIN_SIZE)
-            displayPassage(MIN_SIZE, true);
+            displayPassage(MIN_SIZE, true)
         else
-            displayPassage(index);
+            displayPassage(index)
     }
 
-    public void previousPassageClick(MenuItem item) {
-        previousPassage();
+    fun previousPassageClick(item: MenuItem) {
+        previousPassage()
     }
 
-    public void nextPassageClick(MenuItem item) {
-        nextPassage();
+    fun nextPassageClick(item: MenuItem) {
+        nextPassage()
     }
 
-    public void displayPassage(long index) {
-        txtPassage.setText(getPassage(index, false));
+    fun displayPassage(index: Long) {
+        binding.textBox.text = getPassage(index, false)
     }
 
-    public void displayPassage(long index, boolean exact) {
-        txtPassage.setText(getPassage(index, exact));
+    fun displayPassage(index: Long, exact: Boolean) {
+        binding.textBox.text = getPassage(index, exact)
     }
 
     // ========================== Utilities ===============================
 
-    private void displayTitle() {
-        TextView scriptureTitle = (TextView) findViewById(R.id.pick);
-        if (scriptureTitle != null) {
-            passageTitle = BibleFavorites.title(pickStart);
-            // scriptureTitle.setText(passageTitle);
-        }
-        favorite = bibleFavorites.isFavorite(pickStart);
-        setFavoritesIcon();
+    private fun displayTitle() {
+        // In activity_main.xml, 'pick' is a Button, which inherits from TextView
+        passageTitle = BibleFavorites.title(pickStart)
+        favorite = bibleFavorites.isFavorite(pickStart)
+        setFavoritesIcon()
     }
 
-    private String readPassage(long pickStart, boolean exact) {
-        String passage = "";
-        String line;
-        passageSize = 0;
-        long currentIndex = pickStart;
-        boolean firstTime = true;
+    private fun readPassage(pickStart: Long, exact: Boolean): String {
+        var passage = ""
+        var line: String
+        passageSize = 0
+        var currentIndex = pickStart
+        var firstTime = true
         try {
-            InputStream source = this.getResources().openRawResource(R.raw.all);
-            if (source.skip(pickStart) < 0) return "";
-            if (!exact) {
-                currentIndex += readLine(source).length();
-            }
-            for (int i = 0; i < LINES; i++) {
-                line = readLine(source);
-                if (firstTime) {
-                    passage += "(" + BibleFavorites.title(currentIndex).toUpperCase() + ", KJV)\n\n";
-                    firstTime = false;
-                } else if (line.startsWith("1 ")) {
-                    passage += "(" + BibleFavorites.title(currentIndex + line.length()).toUpperCase() + ", KJV)\n\n";
+            resources.openRawResource(R.raw.all).use { source ->
+                source.skip(pickStart)
+                if (!exact) {
+                    currentIndex += readLine(source).length.toLong()
                 }
-                passage += line;
-                passage += "\n\n";
-                passageSize += line.length();
-                currentIndex += line.length();
+                for (i in 0 until LINES) {
+                    line = readLine(source)
+                    if (firstTime) {
+                        passage += "(${BibleFavorites.title(currentIndex).uppercase()}, KJV)\n\n"
+                        firstTime = false
+                    } else if (line.startsWith("1 ")) {
+                        passage += "(${BibleFavorites.title(currentIndex + line.length).uppercase()}, KJV)\n\n"
+                    }
+                    passage += line
+                    passage += "\n\n"
+                    passageSize += line.length.toLong()
+                    currentIndex += line.length.toLong()
+                }
             }
-            source.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
-        return passage;
+        return passage
     }
 
-    public static String readLine(InputStream source) {
-        String line = "";
-        char c;
-        try {
-            do {
-                int i = source.read();
-                if (i == -1) break;
-                c = (char) i;
-                if (c != '\n') line += c;
-            } while (c != '\n');
-        } catch (Exception e) {
-            e.printStackTrace();
+    companion object {
+        private const val FILE_SIZE = 4289338L
+        private const val LINES = 5
+        private const val MIN_SIZE = 0L
+        private const val MAX_SIZE = FILE_SIZE - (LINES * 100)
+
+        @JvmField
+        var favoriteBookmark = -1L
+        @JvmField
+        var contentsBookmark = -1L
+
+        @JvmStatic
+        fun readLine(source: InputStream): String {
+            val sb = StringBuilder()
+            try {
+                while (true) {
+                    val i = source.read()
+                    if (i == -1) break
+                    val c = i.toChar()
+                    if (c == '\n') break
+                    sb.append(c)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return sb.toString()
         }
-        return line;
     }
 }

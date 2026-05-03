@@ -1,19 +1,17 @@
-package carcar.alex.biblerandomverses;
+package carcar.alex.biblerandomverses
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 
-public class AboutActivity extends AppCompatActivity {
+class AboutActivity : AppCompatActivity() {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_about)
     }
 
-    public void closeWindow(View view) {
-        this.finish();
+    fun closeWindow(view: View) {
+        finish()
     }
-
 }

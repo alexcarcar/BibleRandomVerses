@@ -1,1309 +1,1278 @@
-package carcar.alex.biblerandomverses;
+package carcar.alex.biblerandomverses
 
-import android.content.Context;
+import android.content.Context
+import java.io.BufferedReader
+import java.io.FileNotFoundException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+class BibleFavorites(private val context: Context) {
+    private val favorites: MutableList<Long> = mutableListOf()
 
-public class BibleFavorites {
-    private static final String BIBLE_FAVORITES = "bible-favorites.txt";
-    private List<Long> favorites;
-    private Context context = null;
-
-    public BibleFavorites(Context context) {
-        super();
-        this.context = context;
-        this.favorites = new ArrayList<>();
-
+    init {
         try {
-            InputStream in = context.openFileInput(BIBLE_FAVORITES);
-            if (in != null) {
-                InputStreamReader tmp = new InputStreamReader(in);
-                BufferedReader reader = new BufferedReader(tmp);
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    this.addFavorite(Long.parseLong(line));
+            context.openFileInput(BIBLE_FAVORITES)?.use { inputStream ->
+                InputStreamReader(inputStream).use { isr ->
+                    BufferedReader(isr).use { reader ->
+                        var line: String?
+                        while (reader.readLine().also { line = it } != null) {
+                            addFavorite(line!!.toLong())
+                        }
+                    }
                 }
-                in.close();
             }
-        } catch (FileNotFoundException e) {
+        } catch (e: FileNotFoundException) {
             // okay: on the first load
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
-	public static String title(long n) {
-		if (n < 4203) return "Genesis 1";
-		if (n < 7389) return "Genesis 2";
-		if (n < 10889) return "Genesis 3";
-		if (n < 14197) return "Genesis 4";
-		if (n < 17064) return "Genesis 5";
-		if (n < 20073) return "Genesis 6";
-		if (n < 23163) return "Genesis 7";
-		if (n < 26244) return "Genesis 8";
-		if (n < 29703) return "Genesis 9";
-		if (n < 32591) return "Genesis 10";
-		if (n < 35935) return "Genesis 11";
-		if (n < 38737) return "Genesis 12";
-		if (n < 41122) return "Genesis 13";
-		if (n < 44449) return "Genesis 14";
-		if (n < 46946) return "Genesis 15";
-		if (n < 49129) return "Genesis 16";
-		if (n < 52776) return "Genesis 17";
-		if (n < 57308) return "Genesis 18";
-		if (n < 63044) return "Genesis 19";
-		if (n < 65708) return "Genesis 20";
-		if (n < 69798) return "Genesis 21";
-		if (n < 73097) return "Genesis 22";
-		if (n < 75908) return "Genesis 23";
-		if (n < 85348) return "Genesis 24";
-		if (n < 89268) return "Genesis 25";
-		if (n < 94012) return "Genesis 26";
-		if (n < 100471) return "Genesis 27";
-		if (n < 103666) return "Genesis 28";
-		if (n < 108063) return "Genesis 29";
-		if (n < 113557) return "Genesis 30";
-		if (n < 121120) return "Genesis 31";
-		if (n < 125335) return "Genesis 32";
-		if (n < 128037) return "Genesis 33";
-		if (n < 132236) return "Genesis 34";
-		if (n < 135788) return "Genesis 35";
-		if (n < 140503) return "Genesis 36";
-		if (n < 145487) return "Genesis 37";
-		if (n < 149722) return "Genesis 38";
-		if (n < 153075) return "Genesis 39";
-		if (n < 156187) return "Genesis 40";
-		if (n < 163635) return "Genesis 41";
-		if (n < 168731) return "Genesis 42";
-		if (n < 173653) return "Genesis 43";
-		if (n < 178106) return "Genesis 44";
-		if (n < 181942) return "Genesis 45";
-		if (n < 186130) return "Genesis 46";
-		if (n < 191239) return "Genesis 47";
-		if (n < 194646) return "Genesis 48";
-		if (n < 198805) return "Genesis 49";
-		if (n < 202530) return "Genesis 50";
-		if (n < 205088) return "Exodus 1";
-		if (n < 208498) return "Exodus 2";
-		if (n < 212532) return "Exodus 3";
-		if (n < 217038) return "Exodus 4";
-		if (n < 220254) return "Exodus 5";
-		if (n < 224309) return "Exodus 6";
-		if (n < 228021) return "Exodus 7";
-		if (n < 232973) return "Exodus 8";
-		if (n < 238098) return "Exodus 9";
-		if (n < 242755) return "Exodus 10";
-		if (n < 244468) return "Exodus 11";
-		if (n < 252350) return "Exodus 12";
-		if (n < 255886) return "Exodus 13";
-		if (n < 260897) return "Exodus 14";
-		if (n < 264760) return "Exodus 15";
-		if (n < 270287) return "Exodus 16";
-		if (n < 272752) return "Exodus 17";
-		if (n < 276760) return "Exodus 18";
-		if (n < 280486) return "Exodus 19";
-		if (n < 283478) return "Exodus 20";
-		if (n < 287970) return "Exodus 21";
-		if (n < 292004) return "Exodus 22";
-		if (n < 296442) return "Exodus 23";
-		if (n < 298971) return "Exodus 24";
-		if (n < 303924) return "Exodus 25";
-		if (n < 309095) return "Exodus 26";
-		if (n < 312168) return "Exodus 27";
-		if (n < 318809) return "Exodus 28";
-		if (n < 325911) return "Exodus 29";
-		if (n < 331312) return "Exodus 30";
-		if (n < 333694) return "Exodus 31";
-		if (n < 339372) return "Exodus 32";
-		if (n < 342999) return "Exodus 33";
-		if (n < 348381) return "Exodus 34";
-		if (n < 352907) return "Exodus 35";
-		if (n < 357859) return "Exodus 36";
-		if (n < 361684) return "Exodus 37";
-		if (n < 366315) return "Exodus 38";
-		if (n < 371918) return "Exodus 39";
-		if (n < 376409) return "Exodus 40";
-		if (n < 379117) return "Leviticus 1";
-		if (n < 381680) return "Leviticus 2";
-		if (n < 384341) return "Leviticus 3";
-		if (n < 390472) return "Leviticus 4";
-		if (n < 394208) return "Leviticus 5";
-		if (n < 398947) return "Leviticus 6";
-		if (n < 404657) return "Leviticus 7";
-		if (n < 409930) return "Leviticus 8";
-		if (n < 413331) return "Leviticus 9";
-		if (n < 416704) return "Leviticus 10";
-		if (n < 422826) return "Leviticus 11";
-		if (n < 424217) return "Leviticus 12";
-		if (n < 433702) return "Leviticus 13";
-		if (n < 442471) return "Leviticus 14";
-		if (n < 447423) return "Leviticus 15";
-		if (n < 453550) return "Leviticus 16";
-		if (n < 456488) return "Leviticus 17";
-		if (n < 460295) return "Leviticus 18";
-		if (n < 465102) return "Leviticus 19";
-		if (n < 469586) return "Leviticus 20";
-		if (n < 472644) return "Leviticus 21";
-		if (n < 477289) return "Leviticus 22";
-		if (n < 483859) return "Leviticus 23";
-		if (n < 486803) return "Leviticus 24";
-		if (n < 494837) return "Leviticus 25";
-		if (n < 501460) return "Leviticus 26";
-		if (n < 506463) return "Leviticus 27";
-		if (n < 514014) return "Numbers 1";
-		if (n < 518669) return "Numbers 2";
-		if (n < 525930) return "Numbers 3";
-		if (n < 533846) return "Numbers 4";
-		if (n < 538671) return "Numbers 5";
-		if (n < 542699) return "Numbers 6";
-		if (n < 553529) return "Numbers 7";
-		if (n < 557417) return "Numbers 8";
-		if (n < 561313) return "Numbers 9";
-		if (n < 566079) return "Numbers 10";
-		if (n < 571649) return "Numbers 11";
-		if (n < 573713) return "Numbers 12";
-		if (n < 577615) return "Numbers 13";
-		if (n < 584043) return "Numbers 14";
-		if (n < 589790) return "Numbers 15";
-		if (n < 597086) return "Numbers 16";
-		if (n < 598915) return "Numbers 17";
-		if (n < 604934) return "Numbers 18";
-		if (n < 608602) return "Numbers 19";
-		if (n < 612885) return "Numbers 20";
-		if (n < 617902) return "Numbers 21";
-		if (n < 624061) return "Numbers 22";
-		if (n < 627958) return "Numbers 23";
-		if (n < 631485) return "Numbers 24";
-		if (n < 633916) return "Numbers 25";
-		if (n < 642300) return "Numbers 26";
-		if (n < 645631) return "Numbers 27";
-		if (n < 649848) return "Numbers 28";
-		if (n < 655290) return "Numbers 29";
-		if (n < 657932) return "Numbers 30";
-		if (n < 664726) return "Numbers 31";
-		if (n < 670318) return "Numbers 32";
-		if (n < 675838) return "Numbers 33";
-		if (n < 679257) return "Numbers 34";
-		if (n < 684429) return "Numbers 35";
-		if (n < 686935) return "Numbers 36";
-		if (n < 693547) return "Deuteronomy 1";
-		if (n < 698982) return "Deuteronomy 2";
-		if (n < 703335) return "Deuteronomy 3";
-		if (n < 711337) return "Deuteronomy 4";
-		if (n < 716084) return "Deuteronomy 5";
-		if (n < 719501) return "Deuteronomy 6";
-		if (n < 724059) return "Deuteronomy 7";
-		if (n < 727105) return "Deuteronomy 8";
-		if (n < 732277) return "Deuteronomy 9";
-		if (n < 735446) return "Deuteronomy 10";
-		if (n < 740395) return "Deuteronomy 11";
-		if (n < 745995) return "Deuteronomy 12";
-		if (n < 749269) return "Deuteronomy 13";
-		if (n < 752967) return "Deuteronomy 14";
-		if (n < 756680) return "Deuteronomy 15";
-		if (n < 760506) return "Deuteronomy 16";
-		if (n < 764276) return "Deuteronomy 17";
-		if (n < 767485) return "Deuteronomy 18";
-		if (n < 770736) return "Deuteronomy 19";
-		if (n < 774158) return "Deuteronomy 20";
-		if (n < 777939) return "Deuteronomy 21";
-		if (n < 782532) return "Deuteronomy 22";
-		if (n < 786206) return "Deuteronomy 23";
-		if (n < 789743) return "Deuteronomy 24";
-		if (n < 792687) return "Deuteronomy 25";
-		if (n < 796238) return "Deuteronomy 26";
-		if (n < 799511) return "Deuteronomy 27";
-		if (n < 810647) return "Deuteronomy 28";
-		if (n < 815110) return "Deuteronomy 29";
-		if (n < 818542) return "Deuteronomy 30";
-		if (n < 823962) return "Deuteronomy 31";
-		if (n < 830973) return "Deuteronomy 32";
-		if (n < 835277) return "Deuteronomy 33";
-		if (n < 836909) return "Deuteronomy 34";
-		if (n < 840018) return "Joshua 1";
-		if (n < 843997) return "Joshua 2";
-		if (n < 846979) return "Joshua 3";
-		if (n < 850743) return "Joshua 4";
-		if (n < 853655) return "Joshua 5";
-		if (n < 858459) return "Joshua 6";
-		if (n < 863405) return "Joshua 7";
-		if (n < 869701) return "Joshua 8";
-		if (n < 873951) return "Joshua 9";
-		if (n < 881401) return "Joshua 10";
-		if (n < 885306) return "Joshua 11";
-		if (n < 887941) return "Joshua 12";
-		if (n < 892735) return "Joshua 13";
-		if (n < 895350) return "Joshua 14";
-		if (n < 901399) return "Joshua 15";
-		if (n < 902850) return "Joshua 16";
-		if (n < 906490) return "Joshua 17";
-		if (n < 910837) return "Joshua 18";
-		if (n < 916570) return "Joshua 19";
-		if (n < 918264) return "Joshua 20";
-		if (n < 923995) return "Joshua 21";
-		if (n < 931089) return "Joshua 22";
-		if (n < 934059) return "Joshua 23";
-		if (n < 939563) return "Joshua 24";
-		if (n < 944952) return "Judges 1";
-		if (n < 948708) return "Judges 2";
-		if (n < 953312) return "Judges 3";
-		if (n < 957327) return "Judges 4";
-		if (n < 961525) return "Judges 5";
-		if (n < 968212) return "Judges 6";
-		if (n < 973316) return "Judges 7";
-		if (n < 978622) return "Judges 8";
-		if (n < 987514) return "Judges 9";
-		if (n < 990129) return "Judges 10";
-		if (n < 996786) return "Judges 11";
-		if (n < 999028) return "Judges 12";
-		if (n < 1002895) return "Judges 13";
-		if (n < 1006493) return "Judges 14";
-		if (n < 1009868) return "Judges 15";
-		if (n < 1015635) return "Judges 16";
-		if (n < 1017609) return "Judges 17";
-		if (n < 1022988) return "Judges 18";
-		if (n < 1028624) return "Judges 19";
-		if (n < 1036553) return "Judges 20";
-		if (n < 1040553) return "Judges 21";
-		if (n < 1043915) return "Ruth 1";
-		if (n < 1047868) return "Ruth 2";
-		if (n < 1050606) return "Ruth 3";
-		if (n < 1053860) return "Ruth 4";
-		if (n < 1057916) return "1 Samuel 1";
-		if (n < 1063685) return "1 Samuel 2";
-		if (n < 1066493) return "1 Samuel 3";
-		if (n < 1070327) return "1 Samuel 4";
-		if (n < 1072564) return "1 Samuel 5";
-		if (n < 1076529) return "1 Samuel 6";
-		if (n < 1079332) return "1 Samuel 7";
-		if (n < 1082212) return "1 Samuel 8";
-		if (n < 1087163) return "1 Samuel 9";
-		if (n < 1091719) return "1 Samuel 10";
-		if (n < 1094363) return "1 Samuel 11";
-		if (n < 1098393) return "1 Samuel 12";
-		if (n < 1102307) return "1 Samuel 13";
-		if (n < 1110985) return "1 Samuel 14";
-		if (n < 1116253) return "1 Samuel 15";
-		if (n < 1119842) return "1 Samuel 16";
-		if (n < 1128928) return "1 Samuel 17";
-		if (n < 1133409) return "1 Samuel 18";
-		if (n < 1137143) return "1 Samuel 19";
-		if (n < 1143837) return "1 Samuel 20";
-		if (n < 1146461) return "1 Samuel 21";
-		if (n < 1150434) return "1 Samuel 22";
-		if (n < 1154888) return "1 Samuel 23";
-		if (n < 1158333) return "1 Samuel 24";
-		if (n < 1165913) return "1 Samuel 25";
-		if (n < 1170369) return "1 Samuel 26";
-		if (n < 1172420) return "1 Samuel 27";
-		if (n < 1176858) return "1 Samuel 28";
-		if (n < 1179076) return "1 Samuel 29";
-		if (n < 1184185) return "1 Samuel 30";
-		if (n < 1186112) return "1 Samuel 31";
-		if (n < 1189885) return "2 Samuel 1";
-		if (n < 1194822) return "2 Samuel 2";
-		if (n < 1200819) return "2 Samuel 3";
-		if (n < 1203123) return "2 Samuel 4";
-		if (n < 1206588) return "2 Samuel 5";
-		if (n < 1210327) return "2 Samuel 6";
-		if (n < 1214794) return "2 Samuel 7";
-		if (n < 1217363) return "2 Samuel 8";
-		if (n < 1219514) return "2 Samuel 9";
-		if (n < 1222829) return "2 Samuel 10";
-		if (n < 1227085) return "2 Samuel 11";
-		if (n < 1232279) return "2 Samuel 12";
-		if (n < 1238296) return "2 Samuel 13";
-		if (n < 1244034) return "2 Samuel 14";
-		if (n < 1249958) return "2 Samuel 15";
-		if (n < 1253825) return "2 Samuel 16";
-		if (n < 1258856) return "2 Samuel 17";
-		if (n < 1264604) return "2 Samuel 18";
-		if (n < 1272152) return "2 Samuel 19";
-		if (n < 1276541) return "2 Samuel 20";
-		if (n < 1280714) return "2 Samuel 21";
-		if (n < 1285805) return "2 Samuel 22";
-		if (n < 1290589) return "2 Samuel 23";
-		if (n < 1295108) return "2 Samuel 24";
-		if (n < 1303188) return "1 Kings 1";
-		if (n < 1311120) return "1 Kings 2";
-		if (n < 1315570) return "1 Kings 3";
-		if (n < 1319571) return "1 Kings 4";
-		if (n < 1322461) return "1 Kings 5";
-		if (n < 1327932) return "1 Kings 6";
-		if (n < 1335947) return "1 Kings 7";
-		if (n < 1347569) return "1 Kings 8";
-		if (n < 1352054) return "1 Kings 9";
-		if (n < 1356556) return "1 Kings 10";
-		if (n < 1363310) return "1 Kings 11";
-		if (n < 1368898) return "1 Kings 12";
-		if (n < 1374569) return "1 Kings 13";
-		if (n < 1379757) return "1 Kings 14";
-		if (n < 1384821) return "1 Kings 15";
-		if (n < 1390152) return "1 Kings 16";
-		if (n < 1393559) return "1 Kings 17";
-		if (n < 1400756) return "1 Kings 18";
-		if (n < 1404523) return "1 Kings 19";
-		if (n < 1412342) return "1 Kings 20";
-		if (n < 1417153) return "1 Kings 21";
-		if (n < 1425198) return "1 Kings 22";
-		if (n < 1428601) return "2 Kings 1";
-		if (n < 1432934) return "2 Kings 2";
-		if (n < 1437413) return "2 Kings 3";
-		if (n < 1444234) return "2 Kings 4";
-		if (n < 1449289) return "2 Kings 5";
-		if (n < 1454474) return "2 Kings 6";
-		if (n < 1458644) return "2 Kings 7";
-		if (n < 1463587) return "2 Kings 8";
-		if (n < 1469778) return "2 Kings 9";
-		if (n < 1476052) return "2 Kings 10";
-		if (n < 1479890) return "2 Kings 11";
-		if (n < 1483551) return "2 Kings 12";
-		if (n < 1487708) return "2 Kings 13";
-		if (n < 1492386) return "2 Kings 14";
-		if (n < 1498134) return "2 Kings 15";
-		if (n < 1501636) return "2 Kings 16";
-		if (n < 1508460) return "2 Kings 17";
-		if (n < 1514924) return "2 Kings 18";
-		if (n < 1521093) return "2 Kings 19";
-		if (n < 1524553) return "2 Kings 20";
-		if (n < 1528508) return "2 Kings 21";
-		if (n < 1532305) return "2 Kings 22";
-		if (n < 1540148) return "2 Kings 23";
-		if (n < 1543370) return "2 Kings 24";
-		if (n < 1548613) return "2 Kings 25";
-		if (n < 1552670) return "1 Chronicles 1";
-		if (n < 1557694) return "1 Chronicles 2";
-		if (n < 1559848) return "1 Chronicles 3";
-		if (n < 1564743) return "1 Chronicles 4";
-		if (n < 1568458) return "1 Chronicles 5";
-		if (n < 1576042) return "1 Chronicles 6";
-		if (n < 1580838) return "1 Chronicles 7";
-		if (n < 1583792) return "1 Chronicles 8";
-		if (n < 1589257) return "1 Chronicles 9";
-		if (n < 1591265) return "1 Chronicles 10";
-		if (n < 1596639) return "1 Chronicles 11";
-		if (n < 1602144) return "1 Chronicles 12";
-		if (n < 1604198) return "1 Chronicles 13";
-		if (n < 1606222) return "1 Chronicles 14";
-		if (n < 1610228) return "1 Chronicles 15";
-		if (n < 1614908) return "1 Chronicles 16";
-		if (n < 1618994) return "1 Chronicles 17";
-		if (n < 1621510) return "1 Chronicles 18";
-		if (n < 1624792) return "1 Chronicles 19";
-		if (n < 1626305) return "1 Chronicles 20";
-		if (n < 1631183) return "1 Chronicles 21";
-		if (n < 1634371) return "1 Chronicles 22";
-		if (n < 1638153) return "1 Chronicles 23";
-		if (n < 1641324) return "1 Chronicles 24";
-		if (n < 1644583) return "1 Chronicles 25";
-		if (n < 1648757) return "1 Chronicles 26";
-		if (n < 1653331) return "1 Chronicles 27";
-		if (n < 1657842) return "1 Chronicles 28";
-		if (n < 1663184) return "1 Chronicles 29";
-		if (n < 1666102) return "2 Chronicles 1";
-		if (n < 1669543) return "2 Chronicles 2";
-		if (n < 1672170) return "2 Chronicles 3";
-		if (n < 1675364) return "2 Chronicles 4";
-		if (n < 1678040) return "2 Chronicles 5";
-		if (n < 1685625) return "2 Chronicles 6";
-		if (n < 1689662) return "2 Chronicles 7";
-		if (n < 1692629) return "2 Chronicles 8";
-		if (n < 1697416) return "2 Chronicles 9";
-		if (n < 1700445) return "2 Chronicles 10";
-		if (n < 1703238) return "2 Chronicles 11";
-		if (n < 1705984) return "2 Chronicles 12";
-		if (n < 1709567) return "2 Chronicles 13";
-		if (n < 1711962) return "2 Chronicles 14";
-		if (n < 1714691) return "2 Chronicles 15";
-		if (n < 1717211) return "2 Chronicles 16";
-		if (n < 1719849) return "2 Chronicles 17";
-		if (n < 1725426) return "2 Chronicles 18";
-		if (n < 1727348) return "2 Chronicles 19";
-		if (n < 1733691) return "2 Chronicles 20";
-		if (n < 1737078) return "2 Chronicles 21";
-		if (n < 1739432) return "2 Chronicles 22";
-		if (n < 1743594) return "2 Chronicles 23";
-		if (n < 1748582) return "2 Chronicles 24";
-		if (n < 1753806) return "2 Chronicles 25";
-		if (n < 1757757) return "2 Chronicles 26";
-		if (n < 1759056) return "2 Chronicles 27";
-		if (n < 1763911) return "2 Chronicles 28";
-		if (n < 1770340) return "2 Chronicles 29";
-		if (n < 1775290) return "2 Chronicles 30";
-		if (n < 1779539) return "2 Chronicles 31";
-		if (n < 1785445) return "2 Chronicles 32";
-		if (n < 1789595) return "2 Chronicles 33";
-		if (n < 1796133) return "2 Chronicles 34";
-		if (n < 1801206) return "2 Chronicles 35";
-		if (n < 1805227) return "2 Chronicles 36";
-		if (n < 1807245) return "Ezra 1";
-		if (n < 1813374) return "Ezra 2";
-		if (n < 1816364) return "Ezra 3";
-		if (n < 1820607) return "Ezra 4";
-		if (n < 1823748) return "Ezra 5";
-		if (n < 1828013) return "Ezra 6";
-		if (n < 1832584) return "Ezra 7";
-		if (n < 1837933) return "Ezra 8";
-		if (n < 1841251) return "Ezra 9";
-		if (n < 1846656) return "Ezra 10";
-		if (n < 1848789) return "Nehemiah 1";
-		if (n < 1852451) return "Nehemiah 2";
-		if (n < 1857462) return "Nehemiah 3";
-		if (n < 1861233) return "Nehemiah 4";
-		if (n < 1864634) return "Nehemiah 5";
-		if (n < 1867800) return "Nehemiah 6";
-		if (n < 1874890) return "Nehemiah 7";
-		if (n < 1878633) return "Nehemiah 8";
-		if (n < 1886205) return "Nehemiah 9";
-		if (n < 1890018) return "Nehemiah 10";
-		if (n < 1894459) return "Nehemiah 11";
-		if (n < 1900032) return "Nehemiah 12";
-		if (n < 1905298) return "Nehemiah 13";
-		if (n < 1909292) return "Esther, Greek 1";
-		if (n < 1913762) return "Esther, Greek 2";
-		if (n < 1914105) return "Esther, Greek 3";
-		if (n < 1916942) return "Esther, Greek 4";
-		if (n < 1919006) return "Esther, Greek 5";
-		if (n < 1921573) return "Esther, Greek 6";
-		if (n < 1923397) return "Esther, Greek 7";
-		if (n < 1924281) return "Esther, Greek 8";
-		if (n < 1929750) return "Esther, Greek 9";
-		if (n < 1931415) return "Esther, Greek 10";
-		if (n < 1931698) return "Esther, Greek 11";
-		if (n < 1932444) return "Esther, Greek 12";
-		if (n < 1933893) return "Esther, Greek 13";
-		if (n < 1936693) return "Esther, Greek 14";
-		if (n < 1938443) return "Esther, Greek 15";
-		if (n < 1942195) return "Esther, Greek 16";
-		if (n < 1946189) return "Esther 1";
-		if (n < 1950659) return "Esther 2";
-		if (n < 1953719) return "Esther 3";
-		if (n < 1956556) return "Esther 4";
-		if (n < 1959120) return "Esther 5";
-		if (n < 1961687) return "Esther 6";
-		if (n < 1963511) return "Esther 7";
-		if (n < 1967033) return "Esther 8";
-		if (n < 1972502) return "Esther 9";
-		if (n < 1973005) return "Esther 10";
-		if (n < 1976428) return "Job 1";
-		if (n < 1978471) return "Job 2";
-		if (n < 1980756) return "Job 3";
-		if (n < 1982656) return "Job 4";
-		if (n < 1985141) return "Job 5";
-		if (n < 1987736) return "Job 6";
-		if (n < 1989779) return "Job 7";
-		if (n < 1991686) return "Job 8";
-		if (n < 1994587) return "Job 9";
-		if (n < 1996740) return "Job 10";
-		if (n < 1998602) return "Job 11";
-		if (n < 2000840) return "Job 12";
-		if (n < 2003042) return "Job 13";
-		if (n < 2005217) return "Job 14";
-		if (n < 2008358) return "Job 15";
-		if (n < 2010347) return "Job 16";
-		if (n < 2011723) return "Job 17";
-		if (n < 2013586) return "Job 18";
-		if (n < 2016094) return "Job 19";
-		if (n < 2018891) return "Job 20";
-		if (n < 2021760) return "Job 21";
-		if (n < 2024419) return "Job 22";
-		if (n < 2025901) return "Job 23";
-		if (n < 2028487) return "Job 24";
-		if (n < 2028939) return "Job 25";
-		if (n < 2030110) return "Job 26";
-		if (n < 2032094) return "Job 27";
-		if (n < 2034550) return "Job 28";
-		if (n < 2036619) return "Job 29";
-		if (n < 2039359) return "Job 30";
-		if (n < 2042981) return "Job 31";
-		if (n < 2045056) return "Job 32";
-		if (n < 2047907) return "Job 33";
-		if (n < 2051310) return "Job 34";
-		if (n < 2052737) return "Job 35";
-		if (n < 2055575) return "Job 36";
-		if (n < 2057776) return "Job 37";
-		if (n < 2061399) return "Job 38";
-		if (n < 2064081) return "Job 39";
-		if (n < 2066038) return "Job 40";
-		if (n < 2068783) return "Job 41";
-		if (n < 2071141) return "Job 42";
-		if (n < 2071838) return "Psalms 1";
-		if (n < 2072954) return "Psalms 2";
-		if (n < 2073675) return "Psalms 3";
-		if (n < 2074528) return "Psalms 4";
-		if (n < 2075881) return "Psalms 5";
-		if (n < 2076719) return "Psalms 6";
-		if (n < 2078495) return "Psalms 7";
-		if (n < 2079379) return "Psalms 8";
-		if (n < 2081399) return "Psalms 9";
-		if (n < 2083305) return "Psalms 10";
-		if (n < 2084024) return "Psalms 11";
-		if (n < 2084827) return "Psalms 12";
-		if (n < 2085391) return "Psalms 13";
-		if (n < 2086193) return "Psalms 14";
-		if (n < 2086764) return "Psalms 15";
-		if (n < 2087849) return "Psalms 16";
-		if (n < 2089516) return "Psalms 17";
-		if (n < 2094459) return "Psalms 18";
-		if (n < 2095974) return "Psalms 19";
-		if (n < 2096754) return "Psalms 20";
-		if (n < 2098114) return "Psalms 21";
-		if (n < 2101145) return "Psalms 22";
-		if (n < 2101759) return "Psalms 23";
-		if (n < 2102703) return "Psalms 24";
-		if (n < 2104507) return "Psalms 25";
-		if (n < 2105497) return "Psalms 26";
-		if (n < 2107216) return "Psalms 27";
-		if (n < 2108302) return "Psalms 28";
-		if (n < 2109279) return "Psalms 29";
-		if (n < 2110450) return "Psalms 30";
-		if (n < 2113079) return "Psalms 31";
-		if (n < 2114377) return "Psalms 32";
-		if (n < 2116258) return "Psalms 33";
-		if (n < 2118109) return "Psalms 34";
-		if (n < 2121205) return "Psalms 35";
-		if (n < 2122437) return "Psalms 36";
-		if (n < 2126270) return "Psalms 37";
-		if (n < 2128172) return "Psalms 38";
-		if (n < 2129558) return "Psalms 39";
-		if (n < 2131701) return "Psalms 40";
-		if (n < 2132995) return "Psalms 41";
-		if (n < 2134420) return "Psalms 42";
-		if (n < 2135066) return "Psalms 43";
-		if (n < 2137512) return "Psalms 44";
-		if (n < 2139402) return "Psalms 45";
-		if (n < 2140493) return "Psalms 46";
-		if (n < 2141277) return "Psalms 47";
-		if (n < 2142499) return "Psalms 48";
-		if (n < 2144398) return "Psalms 49";
-		if (n < 2146625) return "Psalms 50";
-		if (n < 2148461) return "Psalms 51";
-		if (n < 2149384) return "Psalms 52";
-		if (n < 2150214) return "Psalms 53";
-		if (n < 2150787) return "Psalms 54";
-		if (n < 2153120) return "Psalms 55";
-		if (n < 2154275) return "Psalms 56";
-		if (n < 2155478) return "Psalms 57";
-		if (n < 2156642) return "Psalms 58";
-		if (n < 2158413) return "Psalms 59";
-		if (n < 2159549) return "Psalms 60";
-		if (n < 2160233) return "Psalms 61";
-		if (n < 2161445) return "Psalms 62";
-		if (n < 2162468) return "Psalms 63";
-		if (n < 2163491) return "Psalms 64";
-		if (n < 2165038) return "Psalms 65";
-		if (n < 2166801) return "Psalms 66";
-		if (n < 2167395) return "Psalms 67";
-		if (n < 2171266) return "Psalms 68";
-		if (n < 2174853) return "Psalms 69";
-		if (n < 2175382) return "Psalms 70";
-		if (n < 2177883) return "Psalms 71";
-		if (n < 2179920) return "Psalms 72";
-		if (n < 2182265) return "Psalms 73";
-		if (n < 2184616) return "Psalms 74";
-		if (n < 2185593) return "Psalms 75";
-		if (n < 2186633) return "Psalms 76";
-		if (n < 2188405) return "Psalms 77";
-		if (n < 2195282) return "Psalms 78";
-		if (n < 2196830) return "Psalms 79";
-		if (n < 2198613) return "Psalms 80";
-		if (n < 2200171) return "Psalms 81";
-		if (n < 2200810) return "Psalms 82";
-		if (n < 2202335) return "Psalms 83";
-		if (n < 2203517) return "Psalms 84";
-		if (n < 2204674) return "Psalms 85";
-		if (n < 2206307) return "Psalms 86";
-		if (n < 2206924) return "Psalms 87";
-		if (n < 2208535) return "Psalms 88";
-		if (n < 2213342) return "Psalms 89";
-		if (n < 2215067) return "Psalms 90";
-		if (n < 2216613) return "Psalms 91";
-		if (n < 2218019) return "Psalms 92";
-		if (n < 2218551) return "Psalms 93";
-		if (n < 2220568) return "Psalms 94";
-		if (n < 2221566) return "Psalms 95";
-		if (n < 2222798) return "Psalms 96";
-		if (n < 2223901) return "Psalms 97";
-		if (n < 2224830) return "Psalms 98";
-		if (n < 2225724) return "Psalms 99";
-		if (n < 2226195) return "Psalms1 00";
-		if (n < 2227071) return "Psalms1 01";
-		if (n < 2229514) return "Psalms1 02";
-		if (n < 2231438) return "Psalms1 03";
-		if (n < 2234710) return "Psalms1 04";
-		if (n < 2238237) return "Psalms1 05";
-		if (n < 2242647) return "Psalms1 06";
-		if (n < 2246570) return "Psalms1 07";
-		if (n < 2247671) return "Psalms1 08";
-		if (n < 2250550) return "Psalms1 09";
-		if (n < 2251293) return "Psalms1 10";
-		if (n < 2252290) return "Psalms1 11";
-		if (n < 2253299) return "Psalms1 12";
-		if (n < 2254035) return "Psalms1 13";
-		if (n < 2254643) return "Psalms1 14";
-		if (n < 2256108) return "Psalms1 15";
-		if (n < 2257615) return "Psalms1 16";
-		if (n < 2257794) return "Psalms1 17";
-		if (n < 2260226) return "Psalms1 18";
-		if (n < 2273990) return "Psalms1 19";
-		if (n < 2274448) return "Psalms1 20";
-		if (n < 2275044) return "Psalms1 21";
-		if (n < 2275719) return "Psalms1 22";
-		if (n < 2276206) return "Psalms1 23";
-		if (n < 2276809) return "Psalms1 24";
-		if (n < 2277396) return "Psalms1 25";
-		if (n < 2277936) return "Psalms1 26";
-		if (n < 2278487) return "Psalms1 27";
-		if (n < 2279034) return "Psalms1 28";
-		if (n < 2279680) return "Psalms1 29";
-		if (n < 2280310) return "Psalms1 30";
-		if (n < 2280624) return "Psalms1 31";
-		if (n < 2282111) return "Psalms1 32";
-		if (n < 2282492) return "Psalms1 33";
-		if (n < 2282721) return "Psalms1 34";
-		if (n < 2284515) return "Psalms1 35";
-		if (n < 2286473) return "Psalms1 36";
-		if (n < 2287353) return "Psalms1 37";
-		if (n < 2288273) return "Psalms1 38";
-		if (n < 2290473) return "Psalms1 39";
-		if (n < 2291795) return "Psalms1 40";
-		if (n < 2292864) return "Psalms1 41";
-		if (n < 2293649) return "Psalms1 42";
-		if (n < 2294968) return "Psalms1 43";
-		if (n < 2296628) return "Psalms1 44";
-		if (n < 2298436) return "Psalms1 45";
-		if (n < 2299401) return "Psalms1 46";
-		if (n < 2301084) return "Psalms1 47";
-		if (n < 2302214) return "Psalms1 48";
-		if (n < 2303007) return "Psalms1 49";
-		if (n < 2303513) return "Psalms1 50";
-		if (n < 2306412) return "Proverbs 1";
-		if (n < 2308226) return "Proverbs 2";
-		if (n < 2311194) return "Proverbs 3";
-		if (n < 2313465) return "Proverbs 4";
-		if (n < 2315409) return "Proverbs 5";
-		if (n < 2318463) return "Proverbs 6";
-		if (n < 2320687) return "Proverbs 7";
-		if (n < 2323804) return "Proverbs 8";
-		if (n < 2325379) return "Proverbs 9";
-		if (n < 2328325) return "Proverbs 10";
-		if (n < 2331386) return "Proverbs 11";
-		if (n < 2334063) return "Proverbs 12";
-		if (n < 2336394) return "Proverbs 13";
-		if (n < 2339569) return "Proverbs 14";
-		if (n < 2342645) return "Proverbs 15";
-		if (n < 2345614) return "Proverbs 16";
-		if (n < 2348285) return "Proverbs 17";
-		if (n < 2350433) return "Proverbs 18";
-		if (n < 2353257) return "Proverbs 19";
-		if (n < 2355972) return "Proverbs 20";
-		if (n < 2358794) return "Proverbs 21";
-		if (n < 2361444) return "Proverbs 22";
-		if (n < 2364513) return "Proverbs 23";
-		if (n < 2367706) return "Proverbs 24";
-		if (n < 2370478) return "Proverbs 25";
-		if (n < 2372920) return "Proverbs 26";
-		if (n < 2375462) return "Proverbs 27";
-		if (n < 2378407) return "Proverbs 28";
-		if (n < 2380856) return "Proverbs 29";
-		if (n < 2384256) return "Proverbs 30";
-		if (n < 2386860) return "Proverbs 31";
-		if (n < 2388969) return "Ecclesiastes 1";
-		if (n < 2392752) return "Ecclesiastes 2";
-		if (n < 2395331) return "Ecclesiastes 3";
-		if (n < 2397350) return "Ecclesiastes 4";
-		if (n < 2400130) return "Ecclesiastes 5";
-		if (n < 2401662) return "Ecclesiastes 6";
-		if (n < 2404939) return "Ecclesiastes 7";
-		if (n < 2407585) return "Ecclesiastes 8";
-		if (n < 2410428) return "Ecclesiastes 9";
-		if (n < 2412591) return "Ecclesiastes 10";
-		if (n < 2414004) return "Ecclesiastes 11";
-		if (n < 2416003) return "Ecclesiastes 12";
-		if (n < 2417765) return "Song of Solomon 1";
-		if (n < 2419586) return "Song of Solomon 2";
-		if (n < 2421073) return "Song of Solomon 3";
-		if (n < 2423075) return "Song of Solomon 4";
-		if (n < 2425144) return "Song of Solomon 5";
-		if (n < 2426672) return "Song of Solomon 6";
-		if (n < 2428201) return "Song of Solomon 7";
-		if (n < 2430088) return "Song of Solomon 8";
-		if (n < 2434247) return "Isaiah 1";
-		if (n < 2437231) return "Isaiah 2";
-		if (n < 2440471) return "Isaiah 3";
-		if (n < 2441554) return "Isaiah 4";
-		if (n < 2446241) return "Isaiah 5";
-		if (n < 2448111) return "Isaiah 6";
-		if (n < 2451711) return "Isaiah 7";
-		if (n < 2454740) return "Isaiah 8";
-		if (n < 2458012) return "Isaiah 9";
-		if (n < 2462901) return "Isaiah 10";
-		if (n < 2465628) return "Isaiah 11";
-		if (n < 2466336) return "Isaiah 12";
-		if (n < 2469470) return "Isaiah 13";
-		if (n < 2474046) return "Isaiah 14";
-		if (n < 2475490) return "Isaiah 15";
-		if (n < 2477779) return "Isaiah 16";
-		if (n < 2480062) return "Isaiah 17";
-		if (n < 2481435) return "Isaiah 18";
-		if (n < 2485318) return "Isaiah 19";
-		if (n < 2486256) return "Isaiah 20";
-		if (n < 2488528) return "Isaiah 21";
-		if (n < 2492086) return "Isaiah 22";
-		if (n < 2494676) return "Isaiah 23";
-		if (n < 2497932) return "Isaiah 24";
-		if (n < 2499872) return "Isaiah 25";
-		if (n < 2502809) return "Isaiah 26";
-		if (n < 2504905) return "Isaiah 27";
-		if (n < 2509306) return "Isaiah 28";
-		if (n < 2513259) return "Isaiah 29";
-		if (n < 2518830) return "Isaiah 30";
-		if (n < 2520513) return "Isaiah 31";
-		if (n < 2522929) return "Isaiah 32";
-		if (n < 2526280) return "Isaiah 33";
-		if (n < 2529089) return "Isaiah 34";
-		if (n < 2530601) return "Isaiah 35";
-		if (n < 2534243) return "Isaiah 36";
-		if (n < 2540334) return "Isaiah 37";
-		if (n < 2543321) return "Isaiah 38";
-		if (n < 2544767) return "Isaiah 39";
-		if (n < 2549112) return "Isaiah 40";
-		if (n < 2553427) return "Isaiah 41";
-		if (n < 2556977) return "Isaiah 42";
-		if (n < 2560772) return "Isaiah 43";
-		if (n < 2565566) return "Isaiah 44";
-		if (n < 2569663) return "Isaiah 45";
-		if (n < 2571464) return "Isaiah 46";
-		if (n < 2574061) return "Isaiah 47";
-		if (n < 2577358) return "Isaiah 48";
-		if (n < 2581924) return "Isaiah 49";
-		if (n < 2583818) return "Isaiah 50";
-		if (n < 2587856) return "Isaiah 51";
-		if (n < 2590086) return "Isaiah 52";
-		if (n < 2592123) return "Isaiah 53";
-		if (n < 2594837) return "Isaiah 54";
-		if (n < 2596924) return "Isaiah 55";
-		if (n < 2598876) return "Isaiah 56";
-		if (n < 2601950) return "Isaiah 57";
-		if (n < 2604704) return "Isaiah 58";
-		if (n < 2608039) return "Isaiah 59";
-		if (n < 2611643) return "Isaiah 60";
-		if (n < 2613753) return "Isaiah 61";
-		if (n < 2615683) return "Isaiah 62";
-		if (n < 2618630) return "Isaiah 63";
-		if (n < 2620341) return "Isaiah 64";
-		if (n < 2624364) return "Isaiah 65";
-		if (n < 2628657) return "Isaiah 66";
-		if (n < 2631411) return "Jeremiah 1";
-		if (n < 2636929) return "Jeremiah 2";
-		if (n < 2641317) return "Jeremiah 3";
-		if (n < 2646065) return "Jeremiah 4";
-		if (n < 2650805) return "Jeremiah 5";
-		if (n < 2655348) return "Jeremiah 6";
-		if (n < 2660485) return "Jeremiah 7";
-		if (n < 2664258) return "Jeremiah 8";
-		if (n < 2668484) return "Jeremiah 9";
-		if (n < 2672040) return "Jeremiah 10";
-		if (n < 2675997) return "Jeremiah 11";
-		if (n < 2678959) return "Jeremiah 12";
-		if (n < 2682910) return "Jeremiah 13";
-		if (n < 2686634) return "Jeremiah 14";
-		if (n < 2690251) return "Jeremiah 15";
-		if (n < 2694025) return "Jeremiah 16";
-		if (n < 2698437) return "Jeremiah 17";
-		if (n < 2701881) return "Jeremiah 18";
-		if (n < 2704768) return "Jeremiah 19";
-		if (n < 2707934) return "Jeremiah 20";
-		if (n < 2710547) return "Jeremiah 21";
-		if (n < 2715078) return "Jeremiah 22";
-		if (n < 2721469) return "Jeremiah 23";
-		if (n < 2723333) return "Jeremiah 24";
-		if (n < 2729444) return "Jeremiah 25";
-		if (n < 2733646) return "Jeremiah 26";
-		if (n < 2737681) return "Jeremiah 27";
-		if (n < 2740619) return "Jeremiah 28";
-		if (n < 2746101) return "Jeremiah 29";
-		if (n < 2749947) return "Jeremiah 30";
-		if (n < 2756822) return "Jeremiah 31";
-		if (n < 2764450) return "Jeremiah 32";
-		if (n < 2768937) return "Jeremiah 33";
-		if (n < 2773401) return "Jeremiah 34";
-		if (n < 2776896) return "Jeremiah 35";
-		if (n < 2782719) return "Jeremiah 36";
-		if (n < 2786100) return "Jeremiah 37";
-		if (n < 2791310) return "Jeremiah 38";
-		if (n < 2794279) return "Jeremiah 39";
-		if (n < 2797912) return "Jeremiah 40";
-		if (n < 2801466) return "Jeremiah 41";
-		if (n < 2805357) return "Jeremiah 42";
-		if (n < 2807765) return "Jeremiah 43";
-		if (n < 2814259) return "Jeremiah 44";
-		if (n < 2815040) return "Jeremiah 45";
-		if (n < 2819495) return "Jeremiah 46";
-		if (n < 2820668) return "Jeremiah 47";
-		if (n < 2827053) return "Jeremiah 48";
-		if (n < 2833496) return "Jeremiah 49";
-		if (n < 2841453) return "Jeremiah 50";
-		if (n < 2851563) return "Jeremiah 51";
-		if (n < 2857392) return "Jeremiah 52";
-		if (n < 2861624) return "Lamentations 1";
-		if (n < 2866328) return "Lamentations 2";
-		if (n < 2871088) return "Lamentations 3";
-		if (n < 2874393) return "Lamentations 4";
-		if (n < 2876049) return "Lamentations 5";
-		if (n < 2880679) return "Ezekiel 1";
-		if (n < 2882144) return "Ezekiel 2";
-		if (n < 2886341) return "Ezekiel 3";
-		if (n < 2889104) return "Ezekiel 4";
-		if (n < 2892422) return "Ezekiel 5";
-		if (n < 2894926) return "Ezekiel 6";
-		if (n < 2899076) return "Ezekiel 7";
-		if (n < 2902439) return "Ezekiel 8";
-		if (n < 2904523) return "Ezekiel 9";
-		if (n < 2908017) return "Ezekiel 10";
-		if (n < 2911780) return "Ezekiel 11";
-		if (n < 2915949) return "Ezekiel 12";
-		if (n < 2919865) return "Ezekiel 13";
-		if (n < 2923844) return "Ezekiel 14";
-		if (n < 2924858) return "Ezekiel 15";
-		if (n < 2935038) return "Ezekiel 16";
-		if (n < 2939265) return "Ezekiel 17";
-		if (n < 2944328) return "Ezekiel 18";
-		if (n < 2946205) return "Ezekiel 19";
-		if (n < 2954612) return "Ezekiel 20";
-		if (n < 2959614) return "Ezekiel 21";
-		if (n < 2964200) return "Ezekiel 22";
-		if (n < 2971682) return "Ezekiel 23";
-		if (n < 2975593) return "Ezekiel 24";
-		if (n < 2978371) return "Ezekiel 25";
-		if (n < 2982125) return "Ezekiel 26";
-		if (n < 2987124) return "Ezekiel 27";
-		if (n < 2991417) return "Ezekiel 28";
-		if (n < 2995146) return "Ezekiel 29";
-		if (n < 2999046) return "Ezekiel 30";
-		if (n < 3002573) return "Ezekiel 31";
-		if (n < 3008237) return "Ezekiel 32";
-		if (n < 3013822) return "Ezekiel 33";
-		if (n < 3018860) return "Ezekiel 34";
-		if (n < 3021009) return "Ezekiel 35";
-		if (n < 3027253) return "Ezekiel 36";
-		if (n < 3031802) return "Ezekiel 37";
-		if (n < 3035880) return "Ezekiel 38";
-		if (n < 3040739) return "Ezekiel 39";
-		if (n < 3049023) return "Ezekiel 40";
-		if (n < 3053375) return "Ezekiel 41";
-		if (n < 3056590) return "Ezekiel 42";
-		if (n < 3061368) return "Ezekiel 43";
-		if (n < 3066947) return "Ezekiel 44";
-		if (n < 3071685) return "Ezekiel 45";
-		if (n < 3076245) return "Ezekiel 46";
-		if (n < 3080467) return "Ezekiel 47";
-		if (n < 3086118) return "Ezekiel 48";
-		if (n < 3089401) return "Daniel 1";
-		if (n < 3097633) return "Daniel 2";
-		if (n < 3103333) return "Daniel 3";
-		if (n < 3110263) return "Daniel 4";
-		if (n < 3115830) return "Daniel 5";
-		if (n < 3120820) return "Daniel 6";
-		if (n < 3125759) return "Daniel 7";
-		if (n < 3130226) return "Daniel 8";
-		if (n < 3135570) return "Daniel 9";
-		if (n < 3138949) return "Daniel 10";
-		if (n < 3147199) return "Daniel 11";
-		if (n < 3149327) return "Daniel 12";
-		if (n < 3151144) return "Hosea 1";
-		if (n < 3154624) return "Hosea 2";
-		if (n < 3155446) return "Hosea 3";
-		if (n < 3158110) return "Hosea 4";
-		if (n < 3160111) return "Hosea 5";
-		if (n < 3161430) return "Hosea 6";
-		if (n < 3163645) return "Hosea 7";
-		if (n < 3165429) return "Hosea 8";
-		if (n < 3168005) return "Hosea 9";
-		if (n < 3170364) return "Hosea 10";
-		if (n < 3171970) return "Hosea 11";
-		if (n < 3173665) return "Hosea 12";
-		if (n < 3175904) return "Hosea 13";
-		if (n < 3177117) return "Hosea 14";
-		if (n < 3179861) return "Joel 1";
-		if (n < 3184995) return "Joel 2";
-		if (n < 3188098) return "Joel 3";
-		if (n < 3190637) return "Amos 1";
-		if (n < 3193033) return "Amos 2";
-		if (n < 3195102) return "Amos 3";
-		if (n < 3197454) return "Amos 4";
-		if (n < 3200968) return "Amos 5";
-		if (n < 3203084) return "Amos 6";
-		if (n < 3205554) return "Amos 7";
-		if (n < 3207640) return "Amos 8";
-		if (n < 3210463) return "Amos 9";
-		if (n < 3214116) return "Obadiah 1";
-		if (n < 3216719) return "Jonah 1";
-		if (n < 3217836) return "Jonah 2";
-		if (n < 3219215) return "Jonah 3";
-		if (n < 3220901) return "Jonah 4";
-		if (n < 3223345) return "Micah 1";
-		if (n < 3225454) return "Micah 2";
-		if (n < 3227319) return "Micah 3";
-		if (n < 3229779) return "Micah 4";
-		if (n < 3232122) return "Micah 5";
-		if (n < 3234505) return "Micah 6";
-		if (n < 3237589) return "Micah 7";
-		if (n < 3239727) return "Nahum 1";
-		if (n < 3241758) return "Nahum 2";
-		if (n < 3244661) return "Nahum 3";
-		if (n < 3247081) return "Habakkuk 1";
-		if (n < 3250070) return "Habakkuk 2";
-		if (n < 3252781) return "Habakkuk 3";
-		if (n < 3255706) return "Zephaniah 1";
-		if (n < 3258276) return "Zephaniah 2";
-		if (n < 3261466) return "Zephaniah 3";
-		if (n < 3263816) return "Haggai 1";
-		if (n < 3267335) return "Haggai 2";
-		if (n < 3270663) return "Zechariah 1";
-		if (n < 3272312) return "Zechariah 2";
-		if (n < 3273875) return "Zechariah 3";
-		if (n < 3275804) return "Zechariah 4";
-		if (n < 3277521) return "Zechariah 5";
-		if (n < 3279751) return "Zechariah 6";
-		if (n < 3281801) return "Zechariah 7";
-		if (n < 3285404) return "Zechariah 8";
-		if (n < 3288182) return "Zechariah 9";
-		if (n < 3290303) return "Zechariah 10";
-		if (n < 3292853) return "Zechariah 11";
-		if (n < 3295355) return "Zechariah 12";
-		if (n < 3297069) return "Zechariah 13";
-		if (n < 3301006) return "Zechariah 14";
-		if (n < 3303546) return "Malachi 1";
-		if (n < 3306452) return "Malachi 2";
-		if (n < 3309439) return "Malachi 3";
-		if (n < 3310386) return "Malachi 4";
-		if (n < 3313116) return "Matthew 1";
-		if (n < 3316481) return "Matthew 2";
-		if (n < 3318570) return "Matthew 3";
-		if (n < 3321656) return "Matthew 4";
-		if (n < 3327466) return "Matthew 5";
-		if (n < 3331781) return "Matthew 6";
-		if (n < 3335093) return "Matthew 7";
-		if (n < 3339265) return "Matthew 8";
-		if (n < 3343850) return "Matthew 9";
-		if (n < 3348750) return "Matthew 10";
-		if (n < 3352320) return "Matthew 11";
-		if (n < 3358630) return "Matthew 12";
-		if (n < 3366080) return "Matthew 13";
-		if (n < 3369993) return "Matthew 14";
-		if (n < 3374372) return "Matthew 15";
-		if (n < 3378023) return "Matthew 16";
-		if (n < 3381393) return "Matthew 17";
-		if (n < 3385991) return "Matthew 18";
-		if (n < 3389924) return "Matthew 19";
-		if (n < 3394057) return "Matthew 20";
-		if (n < 3400130) return "Matthew 21";
-		if (n < 3404730) return "Matthew 22";
-		if (n < 3409470) return "Matthew 23";
-		if (n < 3415080) return "Matthew 24";
-		if (n < 3420425) return "Matthew 25";
-		if (n < 3429081) return "Matthew 26";
-		if (n < 3436561) return "Matthew 27";
-		if (n < 3438839) return "Matthew 28";
-		if (n < 3443967) return "Mark 1";
-		if (n < 3447782) return "Mark 2";
-		if (n < 3451491) return "Mark 3";
-		if (n < 3456338) return "Mark 4";
-		if (n < 3461435) return "Mark 5";
-		if (n < 3468510) return "Mark 6";
-		if (n < 3472955) return "Mark 7";
-		if (n < 3477440) return "Mark 8";
-		if (n < 3483639) return "Mark 9";
-		if (n < 3490168) return "Mark 10";
-		if (n < 3494351) return "Mark 11";
-		if (n < 3500085) return "Mark 12";
-		if (n < 3504533) return "Mark 13";
-		if (n < 3512975) return "Mark 14";
-		if (n < 3518077) return "Mark 15";
-		if (n < 3520526) return "Mark 16";
-		if (n < 3529163) return "Luke 1";
-		if (n < 3535138) return "Luke 2";
-		if (n < 3540448) return "Luke 3";
-		if (n < 3545848) return "Luke 4";
-		if (n < 3550952) return "Luke 5";
-		if (n < 3557409) return "Luke 6";
-		if (n < 3563857) return "Luke 7";
-		if (n < 3571507) return "Luke 8";
-		if (n < 3579247) return "Luke 9";
-		if (n < 3584590) return "Luke 10";
-		if (n < 3591644) return "Luke 11";
-		if (n < 3599147) return "Luke 12";
-		if (n < 3603780) return "Luke 13";
-		if (n < 3608072) return "Luke 14";
-		if (n < 3611878) return "Luke 15";
-		if (n < 3615977) return "Luke 16";
-		if (n < 3620254) return "Luke 17";
-		if (n < 3624970) return "Luke 18";
-		if (n < 3630532) return "Luke 19";
-		if (n < 3635783) return "Luke 20";
-		if (n < 3640172) return "Luke 21";
-		if (n < 3647634) return "Luke 22";
-		if (n < 3653822) return "Luke 23";
-		if (n < 3659585) return "Luke 24";
-		if (n < 3664977) return "John 1";
-		if (n < 3667762) return "John 2";
-		if (n < 3671902) return "John 3";
-		if (n < 3677845) return "John 4";
-		if (n < 3683145) return "John 5";
-		if (n < 3691152) return "John 6";
-		if (n < 3696496) return "John 7";
-		if (n < 3703201) return "John 8";
-		if (n < 3707730) return "John 9";
-		if (n < 3711984) return "John 10";
-		if (n < 3718255) return "John 11";
-		if (n < 3724004) return "John 12";
-		if (n < 3728321) return "John 13";
-		if (n < 3731980) return "John 14";
-		if (n < 3735107) return "John 15";
-		if (n < 3739194) return "John 16";
-		if (n < 3742417) return "John 17";
-		if (n < 3747559) return "John 18";
-		if (n < 3753131) return "John 19";
-		if (n < 3757190) return "John 20";
-		if (n < 3760943) return "John 21";
-		if (n < 3764625) return "Acts of the Apostles 1";
-		if (n < 3770259) return "Acts of the Apostles 2";
-		if (n < 3773674) return "Acts of the Apostles 3";
-		if (n < 3778431) return "Acts of the Apostles 4";
-		if (n < 3783996) return "Acts of the Apostles 5";
-		if (n < 3786043) return "Acts of the Apostles 6";
-		if (n < 3793698) return "Acts of the Apostles 7";
-		if (n < 3798648) return "Acts of the Apostles 8";
-		if (n < 3804299) return "Acts of the Apostles 9";
-		if (n < 3810288) return "Acts of the Apostles 10";
-		if (n < 3813972) return "Acts of the Apostles 11";
-		if (n < 3817552) return "Acts of the Apostles 12";
-		if (n < 3824517) return "Acts of the Apostles 13";
-		if (n < 3828090) return "Acts of the Apostles 14";
-		if (n < 3833389) return "Acts of the Apostles 15";
-		if (n < 3838629) return "Acts of the Apostles 16";
-		if (n < 3843425) return "Acts of the Apostles 17";
-		if (n < 3847144) return "Acts of the Apostles 18";
-		if (n < 3852664) return "Acts of the Apostles 19";
-		if (n < 3857480) return "Acts of the Apostles 20";
-		if (n < 3863345) return "Acts of the Apostles 21";
-		if (n < 3867436) return "Acts of the Apostles 22";
-		if (n < 3872475) return "Acts of the Apostles 23";
-		if (n < 3876090) return "Acts of the Apostles 24";
-		if (n < 3880056) return "Acts of the Apostles 25";
-		if (n < 3884387) return "Acts of the Apostles 26";
-		if (n < 3890050) return "Acts of the Apostles 27";
-		if (n < 3894548) return "Acts of the Apostles 28";
-		if (n < 3898630) return "Romans 1";
-		if (n < 3902115) return "Romans 2";
-		if (n < 3905229) return "Romans 3";
-		if (n < 3908293) return "Romans 4";
-		if (n < 3910923) return "Romans 5";
-		if (n < 3913581) return "Romans 6";
-		if (n < 3916596) return "Romans 7";
-		if (n < 3921449) return "Romans 8";
-		if (n < 3925362) return "Romans 9";
-		if (n < 3927888) return "Romans 10";
-		if (n < 3932321) return "Romans 11";
-		if (n < 3934614) return "Romans 12";
-		if (n < 3936586) return "Romans 13";
-		if (n < 3939390) return "Romans 14";
-		if (n < 3943439) return "Romans 15";
-		if (n < 3946359) return "Romans 16";
-		if (n < 3949847) return "1 Corinthians 1";
-		if (n < 3951842) return "1 Corinthians 2";
-		if (n < 3954312) return "1 Corinthians 3";
-		if (n < 3956966) return "1 Corinthians 4";
-		if (n < 3958709) return "1 Corinthians 5";
-		if (n < 3961194) return "1 Corinthians 6";
-		if (n < 3966303) return "1 Corinthians 7";
-		if (n < 3967951) return "1 Corinthians 8";
-		if (n < 3971352) return "1 Corinthians 9";
-		if (n < 3974942) return "1 Corinthians 10";
-		if (n < 3978652) return "1 Corinthians 11";
-		if (n < 3981917) return "1 Corinthians 12";
-		if (n < 3983412) return "1 Corinthians 13";
-		if (n < 3988295) return "1 Corinthians 14";
-		if (n < 3994510) return "1 Corinthians 15";
-		if (n < 3996888) return "1 Corinthians 16";
-		if (n < 4000013) return "2 Corinthians 1";
-		if (n < 4002075) return "2 Corinthians 2";
-		if (n < 4004225) return "2 Corinthians 3";
-		if (n < 4006451) return "2 Corinthians 4";
-		if (n < 4009095) return "2 Corinthians 5";
-		if (n < 4011121) return "2 Corinthians 6";
-		if (n < 4013614) return "2 Corinthians 7";
-		if (n < 4016664) return "2 Corinthians 8";
-		if (n < 4018690) return "2 Corinthians 9";
-		if (n < 4021130) return "2 Corinthians 10";
-		if (n < 4025035) return "2 Corinthians 11";
-		if (n < 4028144) return "2 Corinthians 12";
-		if (n < 4029802) return "2 Corinthians 13";
-		if (n < 4032251) return "Galatians 1";
-		if (n < 4035366) return "Galatians 2";
-		if (n < 4038856) return "Galatians 3";
-		if (n < 4042078) return "Galatians 4";
-		if (n < 4044653) return "Galatians 5";
-		if (n < 4046575) return "Galatians 6";
-		if (n < 4049362) return "Ephesians 1";
-		if (n < 4051890) return "Ephesians 2";
-		if (n < 4054122) return "Ephesians 3";
-		if (n < 4057585) return "Ephesians 4";
-		if (n < 4060774) return "Ephesians 5";
-		if (n < 4063423) return "Ephesians 6";
-		if (n < 4066800) return "Philippians 1";
-		if (n < 4070011) return "Philippians 2";
-		if (n < 4072693) return "Philippians 3";
-		if (n < 4075361) return "Philippians 4";
-		if (n < 4078955) return "Colossians 1";
-		if (n < 4081761) return "Colossians 2";
-		if (n < 4084379) return "Colossians 3";
-		if (n < 4086425) return "Colossians 4";
-		if (n < 4087762) return "1 Thessalonians 1";
-		if (n < 4090358) return "1 Thessalonians 2";
-		if (n < 4091968) return "1 Thessalonians 3";
-		if (n < 4094097) return "1 Thessalonians 4";
-		if (n < 4096399) return "1 Thessalonians 5";
-		if (n < 4097999) return "2 Thessalonians 1";
-		if (n < 4100116) return "2 Thessalonians 2";
-		if (n < 4102002) return "2 Thessalonians 3";
-		if (n < 4104529) return "1 Timothy 1";
-		if (n < 4105961) return "1 Timothy 2";
-		if (n < 4107764) return "1 Timothy 3";
-		if (n < 4109591) return "1 Timothy 4";
-		if (n < 4112342) return "1 Timothy 5";
-		if (n < 4115098) return "1 Timothy 6";
-		if (n < 4117454) return "2 Timothy 1";
-		if (n < 4120330) return "2 Timothy 2";
-		if (n < 4122184) return "2 Timothy 3";
-		if (n < 4124583) return "2 Timothy 4";
-		if (n < 4126548) return "Titus 1";
-		if (n < 4128139) return "Titus 2";
-		if (n < 4129870) return "Titus 3";
-		if (n < 4132281) return "Philemon 1";
-		if (n < 4134071) return "Hebrews 1";
-		if (n < 4136614) return "Hebrews 2";
-		if (n < 4138588) return "Hebrews 3";
-		if (n < 4140708) return "Hebrews 4";
-		if (n < 4142399) return "Hebrews 5";
-		if (n < 4144784) return "Hebrews 6";
-		if (n < 4148246) return "Hebrews 7";
-		if (n < 4150297) return "Hebrews 8";
-		if (n < 4154187) return "Hebrews 9";
-		if (n < 4158603) return "Hebrews 10";
-		if (n < 4163861) return "Hebrews 11";
-		if (n < 4167775) return "Hebrews 12";
-		if (n < 4170584) return "Hebrews 13";
-		if (n < 4173567) return "James 1";
-		if (n < 4176423) return "James 2";
-		if (n < 4178519) return "James 3";
-		if (n < 4180473) return "James 4";
-		if (n < 4183108) return "James 5";
-		if (n < 4186532) return "1 Peter 1";
-		if (n < 4189665) return "1 Peter 2";
-		if (n < 4192682) return "1 Peter 3";
-		if (n < 4195243) return "1 Peter 4";
-		if (n < 4196946) return "1 Peter 5";
-		if (n < 4199698) return "2 Peter 1";
-		if (n < 4203144) return "2 Peter 2";
-		if (n < 4205863) return "2 Peter 3";
-		if (n < 4207115) return "1 John 1";
-		if (n < 4210991) return "1 John 2";
-		if (n < 4213892) return "1 John 3";
-		if (n < 4216340) return "1 John 4";
-		if (n < 4218997) return "1 John 5";
-		if (n < 4220593) return "2 John 1";
-		if (n < 4222233) return "3 John 1";
-		if (n < 4225847) return "Jude 1";
-		if (n < 4228948) return "Revelation 1";
-		if (n < 4233272) return "Revelation 2";
-		if (n < 4236661) return "Revelation 3";
-		if (n < 4238491) return "Revelation 4";
-		if (n < 4240745) return "Revelation 5";
-		if (n < 4243469) return "Revelation 6";
-		if (n < 4246173) return "Revelation 7";
-		if (n < 4248283) return "Revelation 8";
-		if (n < 4251407) return "Revelation 9";
-		if (n < 4253190) return "Revelation 10";
-		if (n < 4256380) return "Revelation 11";
-		if (n < 4259014) return "Revelation 12";
-		if (n < 4261780) return "Revelation 13";
-		if (n < 4265235) return "Revelation 14";
-		if (n < 4266569) return "Revelation 15";
-		if (n < 4269591) return "Revelation 16";
-		if (n < 4272424) return "Revelation 17";
-		if (n < 4276513) return "Revelation 18";
-		if (n < 4279857) return "Revelation 19";
-		if (n < 4282356) return "Revelation 20";
-		if (n < 4286362) return "Revelation 21";
-		return "Revelation 22";
-	}
-
-    public boolean isFavorite(long position) {
-        for (long favorite : this.favorites) {
-            if (position == favorite) {
-                return true;
-            }
-        }
-        return false;
+    fun isFavorite(position: Long): Boolean {
+        return favorites.contains(position)
     }
 
-//    public void clear() {
-//        try {
-//            OutputStreamWriter out = new OutputStreamWriter(context.openFileOutput(BIBLE_FAVORITES, 0));
-//            out.write("");
-//            out.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        this.favorites = new ArrayList<>();
-//    }
-
-    public void save() {
+    fun save() {
         try {
-            OutputStreamWriter out = new OutputStreamWriter(context.openFileOutput(BIBLE_FAVORITES, 0));
-            for (Long favorite : this.favorites) {
-                out.write(favorite + "\n");
+            context.openFileOutput(BIBLE_FAVORITES, Context.MODE_PRIVATE).use { outputStream ->
+                OutputStreamWriter(outputStream).use { out ->
+                    for (favorite in favorites) {
+                        out.write("$favorite\n")
+                    }
+                }
             }
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
-    public List<Long> getFavorites() {
-        return favorites;
+    fun getFavorites(): MutableList<Long> = favorites
+
+    fun addFavorite(favorite: Long) {
+        if (!favorites.contains(favorite)) {
+            favorites.add(favorite)
+            save()
+        }
     }
 
-    public void addFavorite(Long favorite) {
-        for (Long fav : this.favorites) {
-            if (fav.longValue() == favorite.longValue()) {
-                return; // no need to add it since it already exists
-            }
+    fun removeFavorite(favorite: Long) {
+        if (favorites.remove(favorite)) {
+            save()
         }
-        this.favorites.add(favorite);
-        this.save();
     }
 
-    public void removeFavorite(Long favorite) {
-        boolean modified = false;
-        Iterator<Long> i = this.favorites.iterator();
-        while (i.hasNext()) {
+    companion object {
+        private const val BIBLE_FAVORITES = "bible-favorites.txt"
 
-            if (i.next().longValue() == favorite.longValue()) {
-                i.remove();
-                modified = true;
+        @JvmStatic
+        fun title(n: Long): String {
+            return when {
+                n < 4203 -> "Genesis 1"
+                n < 7389 -> "Genesis 2"
+                n < 10889 -> "Genesis 3"
+                n < 14197 -> "Genesis 4"
+                n < 17064 -> "Genesis 5"
+                n < 20073 -> "Genesis 6"
+                n < 23163 -> "Genesis 7"
+                n < 26244 -> "Genesis 8"
+                n < 29703 -> "Genesis 9"
+                n < 32591 -> "Genesis 10"
+                n < 35935 -> "Genesis 11"
+                n < 38737 -> "Genesis 12"
+                n < 41122 -> "Genesis 13"
+                n < 44449 -> "Genesis 14"
+                n < 46946 -> "Genesis 15"
+                n < 49129 -> "Genesis 16"
+                n < 52776 -> "Genesis 17"
+                n < 57308 -> "Genesis 18"
+                n < 63044 -> "Genesis 19"
+                n < 65708 -> "Genesis 20"
+                n < 69798 -> "Genesis 21"
+                n < 73097 -> "Genesis 22"
+                n < 75908 -> "Genesis 23"
+                n < 85348 -> "Genesis 24"
+                n < 89268 -> "Genesis 25"
+                n < 94012 -> "Genesis 26"
+                n < 100471 -> "Genesis 27"
+                n < 103666 -> "Genesis 28"
+                n < 108063 -> "Genesis 29"
+                n < 113557 -> "Genesis 30"
+                n < 121120 -> "Genesis 31"
+                n < 125335 -> "Genesis 32"
+                n < 128037 -> "Genesis 33"
+                n < 132236 -> "Genesis 34"
+                n < 135788 -> "Genesis 35"
+                n < 140503 -> "Genesis 36"
+                n < 145487 -> "Genesis 37"
+                n < 149722 -> "Genesis 38"
+                n < 153075 -> "Genesis 39"
+                n < 156187 -> "Genesis 40"
+                n < 163635 -> "Genesis 41"
+                n < 168731 -> "Genesis 42"
+                n < 173653 -> "Genesis 43"
+                n < 178106 -> "Genesis 44"
+                n < 181942 -> "Genesis 45"
+                n < 186130 -> "Genesis 46"
+                n < 191239 -> "Genesis 47"
+                n < 194646 -> "Genesis 48"
+                n < 198805 -> "Genesis 49"
+                n < 202530 -> "Genesis 50"
+                n < 205088 -> "Exodus 1"
+                n < 208498 -> "Exodus 2"
+                n < 212532 -> "Exodus 3"
+                n < 217038 -> "Exodus 4"
+                n < 220254 -> "Exodus 5"
+                n < 224309 -> "Exodus 6"
+                n < 228021 -> "Exodus 7"
+                n < 232973 -> "Exodus 8"
+                n < 238098 -> "Exodus 9"
+                n < 242755 -> "Exodus 10"
+                n < 244468 -> "Exodus 11"
+                n < 252350 -> "Exodus 12"
+                n < 255886 -> "Exodus 13"
+                n < 260897 -> "Exodus 14"
+                n < 264760 -> "Exodus 15"
+                n < 270287 -> "Exodus 16"
+                n < 272752 -> "Exodus 17"
+                n < 276760 -> "Exodus 18"
+                n < 280486 -> "Exodus 19"
+                n < 283478 -> "Exodus 20"
+                n < 287970 -> "Exodus 21"
+                n < 292004 -> "Exodus 22"
+                n < 296442 -> "Exodus 23"
+                n < 298971 -> "Exodus 24"
+                n < 303924 -> "Exodus 25"
+                n < 309095 -> "Exodus 26"
+                n < 312168 -> "Exodus 27"
+                n < 318809 -> "Exodus 28"
+                n < 325911 -> "Exodus 29"
+                n < 331312 -> "Exodus 30"
+                n < 333694 -> "Exodus 31"
+                n < 339372 -> "Exodus 32"
+                n < 342999 -> "Exodus 33"
+                n < 348381 -> "Exodus 34"
+                n < 352907 -> "Exodus 35"
+                n < 357859 -> "Exodus 36"
+                n < 361684 -> "Exodus 37"
+                n < 366315 -> "Exodus 38"
+                n < 371918 -> "Exodus 39"
+                n < 376409 -> "Exodus 40"
+                n < 379117 -> "Leviticus 1"
+                n < 381680 -> "Leviticus 2"
+                n < 384341 -> "Leviticus 3"
+                n < 390472 -> "Leviticus 4"
+                n < 394208 -> "Leviticus 5"
+                n < 398947 -> "Leviticus 6"
+                n < 404657 -> "Leviticus 7"
+                n < 409930 -> "Leviticus 8"
+                n < 413331 -> "Leviticus 9"
+                n < 416704 -> "Leviticus 10"
+                n < 422826 -> "Leviticus 11"
+                n < 424217 -> "Leviticus 12"
+                n < 433702 -> "Leviticus 13"
+                n < 442471 -> "Leviticus 14"
+                n < 447423 -> "Leviticus 15"
+                n < 453550 -> "Leviticus 16"
+                n < 456488 -> "Leviticus 17"
+                n < 460295 -> "Leviticus 18"
+                n < 465102 -> "Leviticus 19"
+                n < 469586 -> "Leviticus 20"
+                n < 472644 -> "Leviticus 21"
+                n < 477289 -> "Leviticus 22"
+                n < 483859 -> "Leviticus 23"
+                n < 486803 -> "Leviticus 24"
+                n < 494837 -> "Leviticus 25"
+                n < 501460 -> "Leviticus 26"
+                n < 506463 -> "Leviticus 27"
+                n < 514014 -> "Numbers 1"
+                n < 518669 -> "Numbers 2"
+                n < 525930 -> "Numbers 3"
+                n < 533846 -> "Numbers 4"
+                n < 538671 -> "Numbers 5"
+                n < 542699 -> "Numbers 6"
+                n < 553529 -> "Numbers 7"
+                n < 557417 -> "Numbers 8"
+                n < 561313 -> "Numbers 9"
+                n < 566079 -> "Numbers 10"
+                n < 571649 -> "Numbers 11"
+                n < 573713 -> "Numbers 12"
+                n < 577615 -> "Numbers 13"
+                n < 584043 -> "Numbers 14"
+                n < 589790 -> "Numbers 15"
+                n < 597086 -> "Numbers 16"
+                n < 598915 -> "Numbers 17"
+                n < 604934 -> "Numbers 18"
+                n < 608602 -> "Numbers 19"
+                n < 612885 -> "Numbers 20"
+                n < 617902 -> "Numbers 21"
+                n < 624061 -> "Numbers 22"
+                n < 627958 -> "Numbers 23"
+                n < 631485 -> "Numbers 24"
+                n < 633916 -> "Numbers 25"
+                n < 642300 -> "Numbers 26"
+                n < 645631 -> "Numbers 27"
+                n < 649848 -> "Numbers 28"
+                n < 655290 -> "Numbers 29"
+                n < 657932 -> "Numbers 30"
+                n < 664726 -> "Numbers 31"
+                n < 670318 -> "Numbers 32"
+                n < 675838 -> "Numbers 33"
+                n < 679257 -> "Numbers 34"
+                n < 684429 -> "Numbers 35"
+                n < 686935 -> "Numbers 36"
+                n < 693547 -> "Deuteronomy 1"
+                n < 698982 -> "Deuteronomy 2"
+                n < 703335 -> "Deuteronomy 3"
+                n < 711337 -> "Deuteronomy 4"
+                n < 716084 -> "Deuteronomy 5"
+                n < 719501 -> "Deuteronomy 6"
+                n < 724059 -> "Deuteronomy 7"
+                n < 727105 -> "Deuteronomy 8"
+                n < 732277 -> "Deuteronomy 9"
+                n < 735446 -> "Deuteronomy 10"
+                n < 740395 -> "Deuteronomy 11"
+                n < 745995 -> "Deuteronomy 12"
+                n < 749269 -> "Deuteronomy 13"
+                n < 752967 -> "Deuteronomy 14"
+                n < 756680 -> "Deuteronomy 15"
+                n < 760506 -> "Deuteronomy 16"
+                n < 764276 -> "Deuteronomy 17"
+                n < 767485 -> "Deuteronomy 18"
+                n < 770736 -> "Deuteronomy 19"
+                n < 774158 -> "Deuteronomy 20"
+                n < 777939 -> "Deuteronomy 21"
+                n < 782532 -> "Deuteronomy 22"
+                n < 786206 -> "Deuteronomy 23"
+                n < 789743 -> "Deuteronomy 24"
+                n < 792687 -> "Deuteronomy 25"
+                n < 796238 -> "Deuteronomy 26"
+                n < 799511 -> "Deuteronomy 27"
+                n < 810647 -> "Deuteronomy 28"
+                n < 815110 -> "Deuteronomy 29"
+                n < 818542 -> "Deuteronomy 30"
+                n < 823962 -> "Deuteronomy 31"
+                n < 830973 -> "Deuteronomy 32"
+                n < 835277 -> "Deuteronomy 33"
+                n < 836909 -> "Deuteronomy 34"
+                n < 840018 -> "Joshua 1"
+                n < 843997 -> "Joshua 2"
+                n < 846979 -> "Joshua 3"
+                n < 850743 -> "Joshua 4"
+                n < 853655 -> "Joshua 5"
+                n < 858459 -> "Joshua 6"
+                n < 863405 -> "Joshua 7"
+                n < 869701 -> "Joshua 8"
+                n < 873951 -> "Joshua 9"
+                n < 881401 -> "Joshua 10"
+                n < 885306 -> "Joshua 11"
+                n < 887941 -> "Joshua 12"
+                n < 892735 -> "Joshua 13"
+                n < 895350 -> "Joshua 14"
+                n < 901399 -> "Joshua 15"
+                n < 902850 -> "Joshua 16"
+                n < 906490 -> "Joshua 17"
+                n < 910837 -> "Joshua 18"
+                n < 916570 -> "Joshua 19"
+                n < 918264 -> "Joshua 20"
+                n < 923995 -> "Joshua 21"
+                n < 931089 -> "Joshua 22"
+                n < 934059 -> "Joshua 23"
+                n < 939563 -> "Joshua 24"
+                n < 944952 -> "Judges 1"
+                n < 948708 -> "Judges 2"
+                n < 953312 -> "Judges 3"
+                n < 957327 -> "Judges 4"
+                n < 961525 -> "Judges 5"
+                n < 968212 -> "Judges 6"
+                n < 973316 -> "Judges 7"
+                n < 978622 -> "Judges 8"
+                n < 987514 -> "Judges 9"
+                n < 990129 -> "Judges 10"
+                n < 996786 -> "Judges 11"
+                n < 999028 -> "Judges 12"
+                n < 1002895 -> "Judges 13"
+                n < 1006493 -> "Judges 14"
+                n < 1009868 -> "Judges 15"
+                n < 1015635 -> "Judges 16"
+                n < 1017609 -> "Judges 17"
+                n < 1022988 -> "Judges 18"
+                n < 1028624 -> "Judges 19"
+                n < 1036553 -> "Judges 20"
+                n < 1040553 -> "Judges 21"
+                n < 1043915 -> "Ruth 1"
+                n < 1047868 -> "Ruth 2"
+                n < 1050606 -> "Ruth 3"
+                n < 1053860 -> "Ruth 4"
+                n < 1057916 -> "1 Samuel 1"
+                n < 1063685 -> "1 Samuel 2"
+                n < 1066493 -> "1 Samuel 3"
+                n < 1070327 -> "1 Samuel 4"
+                n < 1072564 -> "1 Samuel 5"
+                n < 1076529 -> "1 Samuel 6"
+                n < 1079332 -> "1 Samuel 7"
+                n < 1082212 -> "1 Samuel 8"
+                n < 1087163 -> "1 Samuel 9"
+                n < 1091719 -> "1 Samuel 10"
+                n < 1094363 -> "1 Samuel 11"
+                n < 1098393 -> "1 Samuel 12"
+                n < 1102307 -> "1 Samuel 13"
+                n < 1110985 -> "1 Samuel 14"
+                n < 1116253 -> "1 Samuel 15"
+                n < 1119842 -> "1 Samuel 16"
+                n < 1128928 -> "1 Samuel 17"
+                n < 113409 -> "1 Samuel 18"
+                n < 1137143 -> "1 Samuel 19"
+                n < 1143837 -> "1 Samuel 20"
+                n < 1146461 -> "1 Samuel 21"
+                n < 1150434 -> "1 Samuel 22"
+                n < 1154888 -> "1 Samuel 23"
+                n < 1158333 -> "1 Samuel 24"
+                n < 1165913 -> "1 Samuel 25"
+                n < 1170369 -> "1 Samuel 26"
+                n < 1172420 -> "1 Samuel 27"
+                n < 1176858 -> "1 Samuel 28"
+                n < 1179076 -> "1 Samuel 29"
+                n < 1184185 -> "1 Samuel 30"
+                n < 1186112 -> "1 Samuel 31"
+                n < 1189885 -> "2 Samuel 1"
+                n < 1194822 -> "2 Samuel 2"
+                n < 1200819 -> "2 Samuel 3"
+                n < 1203123 -> "2 Samuel 4"
+                n < 1206588 -> "2 Samuel 5"
+                n < 1210327 -> "2 Samuel 6"
+                n < 1214794 -> "2 Samuel 7"
+                n < 1217363 -> "2 Samuel 8"
+                n < 1219514 -> "2 Samuel 9"
+                n < 1222829 -> "2 Samuel 10"
+                n < 1227085 -> "2 Samuel 11"
+                n < 1232279 -> "2 Samuel 12"
+                n < 1238296 -> "2 Samuel 13"
+                n < 1244034 -> "2 Samuel 14"
+                n < 1249958 -> "2 Samuel 15"
+                n < 1253825 -> "2 Samuel 16"
+                n < 1258856 -> "2 Samuel 17"
+                n < 1264604 -> "2 Samuel 18"
+                n < 1272152 -> "2 Samuel 19"
+                n < 1276541 -> "2 Samuel 20"
+                n < 1280714 -> "2 Samuel 21"
+                n < 1285805 -> "2 Samuel 22"
+                n < 1290589 -> "2 Samuel 23"
+                n < 1295108 -> "2 Samuel 24"
+                n < 1303188 -> "1 Kings 1"
+                n < 1311120 -> "1 Kings 2"
+                n < 1315570 -> "1 Kings 3"
+                n < 1319571 -> "1 Kings 4"
+                n < 1322461 -> "1 Kings 5"
+                n < 1327932 -> "1 Kings 6"
+                n < 1335947 -> "1 Kings 7"
+                n < 1347569 -> "1 Kings 8"
+                n < 1352054 -> "1 Kings 9"
+                n < 1356556 -> "1 Kings 10"
+                n < 1363310 -> "1 Kings 11"
+                n < 1368898 -> "1 Kings 12"
+                n < 1374569 -> "1 Kings 13"
+                n < 1379757 -> "1 Kings 14"
+                n < 1384821 -> "1 Kings 15"
+                n < 1390152 -> "1 Kings 16"
+                n < 1393559 -> "1 Kings 17"
+                n < 1400756 -> "1 Kings 18"
+                n < 1404523 -> "1 Kings 19"
+                n < 1412342 -> "1 Kings 20"
+                n < 1417153 -> "1 Kings 21"
+                n < 1425198 -> "1 Kings 22"
+                n < 1428601 -> "2 Kings 1"
+                n < 1432934 -> "2 Kings 2"
+                n < 1437413 -> "2 Kings 3"
+                n < 1444234 -> "2 Kings 4"
+                n < 1449289 -> "2 Kings 5"
+                n < 1454474 -> "2 Kings 6"
+                n < 1458644 -> "2 Kings 7"
+                n < 1463587 -> "2 Kings 8"
+                n < 1469778 -> "2 Kings 9"
+                n < 1476052 -> "2 Kings 10"
+                n < 1479890 -> "2 Kings 11"
+                n < 1483551 -> "2 Kings 12"
+                n < 1487708 -> "2 Kings 13"
+                n < 1492386 -> "2 Kings 14"
+                n < 1498134 -> "2 Kings 15"
+                n < 1501636 -> "2 Kings 16"
+                n < 1508460 -> "2 Kings 17"
+                n < 1514924 -> "2 Kings 18"
+                n < 1521093 -> "2 Kings 19"
+                n < 1524553 -> "2 Kings 20"
+                n < 1528508 -> "2 Kings 21"
+                n < 1532305 -> "2 Kings 22"
+                n < 1540148 -> "2 Kings 23"
+                n < 1543370 -> "2 Kings 24"
+                n < 1548613 -> "2 Kings 25"
+                n < 1552670 -> "1 Chronicles 1"
+                n < 1557694 -> "1 Chronicles 2"
+                n < 1559848 -> "1 Chronicles 3"
+                n < 1564743 -> "1 Chronicles 4"
+                n < 1568458 -> "1 Chronicles 5"
+                n < 1576042 -> "1 Chronicles 6"
+                n < 1580838 -> "1 Chronicles 7"
+                n < 1583792 -> "1 Chronicles 8"
+                n < 1589257 -> "1 Chronicles 9"
+                n < 1591265 -> "1 Chronicles 10"
+                n < 1596639 -> "1 Chronicles 11"
+                n < 1602144 -> "1 Chronicles 12"
+                n < 1604198 -> "1 Chronicles 13"
+                n < 1606222 -> "1 Chronicles 14"
+                n < 1610228 -> "1 Chronicles 15"
+                n < 1614908 -> "1 Chronicles 16"
+                n < 1618994 -> "1 Chronicles 17"
+                n < 1621510 -> "1 Chronicles 18"
+                n < 1624792 -> "1 Chronicles 19"
+                n < 1626305 -> "1 Chronicles 20"
+                n < 1631183 -> "1 Chronicles 21"
+                n < 1634371 -> "1 Chronicles 22"
+                n < 1638153 -> "1 Chronicles 23"
+                n < 1641324 -> "1 Chronicles 24"
+                n < 1644583 -> "1 Chronicles 25"
+                n < 1648757 -> "1 Chronicles 26"
+                n < 1653331 -> "1 Chronicles 27"
+                n < 1657842 -> "1 Chronicles 28"
+                n < 1663184 -> "1 Chronicles 29"
+                n < 1666102 -> "2 Chronicles 1"
+                n < 1669543 -> "2 Chronicles 2"
+                n < 1672170 -> "2 Chronicles 3"
+                n < 1675364 -> "2 Chronicles 4"
+                n < 1678040 -> "2 Chronicles 5"
+                n < 1685625 -> "2 Chronicles 6"
+                n < 1689662 -> "2 Chronicles 7"
+                n < 1692629 -> "2 Chronicles 8"
+                n < 1697416 -> "2 Chronicles 9"
+                n < 1700445 -> "2 Chronicles 10"
+                n < 1703238 -> "2 Chronicles 11"
+                n < 1705984 -> "2 Chronicles 12"
+                n < 1709567 -> "2 Chronicles 13"
+                n < 1711962 -> "2 Chronicles 14"
+                n < 1714691 -> "2 Chronicles 15"
+                n < 1717211 -> "2 Chronicles 16"
+                n < 1719849 -> "2 Chronicles 17"
+                n < 1725426 -> "2 Chronicles 18"
+                n < 1727348 -> "2 Chronicles 19"
+                n < 1733691 -> "2 Chronicles 20"
+                n < 1737078 -> "2 Chronicles 21"
+                n < 1739432 -> "2 Chronicles 22"
+                n < 1743594 -> "2 Chronicles 23"
+                n < 1748582 -> "2 Chronicles 24"
+                n < 1753806 -> "2 Chronicles 25"
+                n < 1757757 -> "2 Chronicles 26"
+                n < 1759056 -> "2 Chronicles 27"
+                n < 1763911 -> "2 Chronicles 28"
+                n < 1770340 -> "2 Chronicles 29"
+                n < 1775290 -> "2 Chronicles 30"
+                n < 1779539 -> "2 Chronicles 31"
+                n < 1785445 -> "2 Chronicles 32"
+                n < 1789595 -> "2 Chronicles 33"
+                n < 1796133 -> "2 Chronicles 34"
+                n < 1801206 -> "2 Chronicles 35"
+                n < 1805227 -> "2 Chronicles 36"
+                n < 1807245 -> "Ezra 1"
+                n < 1813374 -> "Ezra 2"
+                n < 1816364 -> "Ezra 3"
+                n < 1820607 -> "Ezra 4"
+                n < 1823748 -> "Ezra 5"
+                n < 1828013 -> "Ezra 6"
+                n < 1832584 -> "Ezra 7"
+                n < 1837933 -> "Ezra 8"
+                n < 1841251 -> "Ezra 9"
+                n < 1846656 -> "Ezra 10"
+                n < 1848789 -> "Nehemiah 1"
+                n < 1852451 -> "Nehemiah 2"
+                n < 1857462 -> "Nehemiah 3"
+                n < 1861233 -> "Nehemiah 4"
+                n < 1864634 -> "Nehemiah 5"
+                n < 1867800 -> "Nehemiah 6"
+                n < 1874890 -> "Nehemiah 7"
+                n < 1878633 -> "Nehemiah 8"
+                n < 1886205 -> "Nehemiah 9"
+                n < 1890018 -> "Nehemiah 10"
+                n < 1894459 -> "Nehemiah 11"
+                n < 1900032 -> "Nehemiah 12"
+                n < 1905298 -> "Nehemiah 13"
+                n < 1909292 -> "Esther, Greek 1"
+                n < 1913762 -> "Esther, Greek 2"
+                n < 1914105 -> "Esther, Greek 3"
+                n < 1916942 -> "Esther, Greek 4"
+                n < 1919006 -> "Esther, Greek 5"
+                n < 1921573 -> "Esther, Greek 6"
+                n < 1923397 -> "Esther, Greek 7"
+                n < 1924281 -> "Esther, Greek 8"
+                n < 1929750 -> "Esther, Greek 9"
+                n < 1931415 -> "Esther, Greek 10"
+                n < 1931698 -> "Esther, Greek 11"
+                n < 1932444 -> "Esther, Greek 12"
+                n < 1933893 -> "Esther, Greek 13"
+                n < 1936693 -> "Esther, Greek 14"
+                n < 1938443 -> "Esther, Greek 15"
+                n < 1942195 -> "Esther, Greek 16"
+                n < 1946189 -> "Esther 1"
+                n < 1950659 -> "Esther 2"
+                n < 1953719 -> "Esther 3"
+                n < 1956556 -> "Esther 4"
+                n < 1959120 -> "Esther 5"
+                n < 1961687 -> "Esther 6"
+                n < 1963511 -> "Esther 7"
+                n < 1967033 -> "Esther 8"
+                n < 1972502 -> "Esther 9"
+                n < 1973005 -> "Esther 10"
+                n < 1976428 -> "Job 1"
+                n < 1978471 -> "Job 2"
+                n < 1980756 -> "Job 3"
+                n < 1982656 -> "Job 4"
+                n < 1985141 -> "Job 5"
+                n < 1987736 -> "Job 6"
+                n < 1989779 -> "Job 7"
+                n < 1991686 -> "Job 8"
+                n < 1994587 -> "Job 9"
+                n < 1996740 -> "Job 10"
+                n < 1998602 -> "Job 11"
+                n < 2000840 -> "Job 12"
+                n < 2003042 -> "Job 13"
+                n < 2005217 -> "Job 14"
+                n < 2008358 -> "Job 15"
+                n < 2010347 -> "Job 16"
+                n < 2011723 -> "Job 17"
+                n < 2013586 -> "Job 18"
+                n < 2016094 -> "Job 19"
+                n < 2018891 -> "Job 20"
+                n < 2021760 -> "Job 21"
+                n < 2024419 -> "Job 22"
+                n < 2025901 -> "Job 23"
+                n < 2028487 -> "Job 24"
+                n < 2028939 -> "Job 25"
+                n < 2030110 -> "Job 26"
+                n < 2032094 -> "Job 27"
+                n < 2034550 -> "Job 28"
+                n < 2036619 -> "Job 29"
+                n < 2039359 -> "Job 30"
+                n < 2042981 -> "Job 31"
+                n < 2045056 -> "Job 32"
+                n < 2047907 -> "Job 33"
+                n < 2051310 -> "Job 34"
+                n < 2052737 -> "Job 35"
+                n < 2055575 -> "Job 36"
+                n < 2057776 -> "Job 37"
+                n < 2061399 -> "Job 38"
+                n < 2064081 -> "Job 39"
+                n < 2066038 -> "Job 40"
+                n < 2068783 -> "Job 41"
+                n < 2071141 -> "Job 42"
+                n < 2071838 -> "Psalms 1"
+                n < 2072954 -> "Psalms 2"
+                n < 2073675 -> "Psalms 3"
+                n < 2074528 -> "Psalms 4"
+                n < 2075881 -> "Psalms 5"
+                n < 2076719 -> "Psalms 6"
+                n < 2078495 -> "Psalms 7"
+                n < 2079379 -> "Psalms 8"
+                n < 2081399 -> "Psalms 9"
+                n < 2083305 -> "Psalms 10"
+                n < 2084024 -> "Psalms 11"
+                n < 2084827 -> "Psalms 12"
+                n < 2085391 -> "Psalms 13"
+                n < 2086193 -> "Psalms 14"
+                n < 2086764 -> "Psalms 15"
+                n < 2087849 -> "Psalms 16"
+                n < 2089516 -> "Psalms 17"
+                n < 2094459 -> "Psalms 18"
+                n < 2095974 -> "Psalms 19"
+                n < 2096754 -> "Psalms 20"
+                n < 2098114 -> "Psalms 21"
+                n < 2101145 -> "Psalms 22"
+                n < 2101759 -> "Psalms 23"
+                n < 2102703 -> "Psalms 24"
+                n < 2104507 -> "Psalms 25"
+                n < 2105497 -> "Psalms 26"
+                n < 2107216 -> "Psalms 27"
+                n < 2108302 -> "Psalms 28"
+                n < 2109279 -> "Psalms 29"
+                n < 2110450 -> "Psalms 30"
+                n < 2113079 -> "Psalms 31"
+                n < 2114377 -> "Psalms 32"
+                n < 2116258 -> "Psalms 33"
+                n < 2118109 -> "Psalms 34"
+                n < 2121205 -> "Psalms 35"
+                n < 2122437 -> "Psalms 36"
+                n < 2126270 -> "Psalms 37"
+                n < 2128172 -> "Psalms 38"
+                n < 2129558 -> "Psalms 39"
+                n < 2131701 -> "Psalms 40"
+                n < 2132995 -> "Psalms 41"
+                n < 2134420 -> "Psalms 42"
+                n < 2135066 -> "Psalms 43"
+                n < 2137512 -> "Psalms 44"
+                n < 2139402 -> "Psalms 45"
+                n < 2140493 -> "Psalms 46"
+                n < 2141277 -> "Psalms 47"
+                n < 2142499 -> "Psalms 48"
+                n < 2144398 -> "Psalms 49"
+                n < 2146625 -> "Psalms 50"
+                n < 2148461 -> "Psalms 51"
+                n < 2149384 -> "Psalms 52"
+                n < 2150214 -> "Psalms 53"
+                n < 2150787 -> "Psalms 54"
+                n < 2153120 -> "Psalms 55"
+                n < 2154275 -> "Psalms 56"
+                n < 2155478 -> "Psalms 57"
+                n < 2156642 -> "Psalms 58"
+                n < 2158413 -> "Psalms 59"
+                n < 2159549 -> "Psalms 60"
+                n < 2160233 -> "Psalms 61"
+                n < 2161445 -> "Psalms 62"
+                n < 2162468 -> "Psalms 63"
+                n < 2163491 -> "Psalms 64"
+                n < 2165038 -> "Psalms 65"
+                n < 2166801 -> "Psalms 66"
+                n < 2167395 -> "Psalms 67"
+                n < 2171266 -> "Psalms 68"
+                n < 2174853 -> "Psalms 69"
+                n < 2175382 -> "Psalms 70"
+                n < 2177883 -> "Psalms 71"
+                n < 2179920 -> "Psalms 72"
+                n < 2182265 -> "Psalms 73"
+                n < 2184616 -> "Psalms 74"
+                n < 2185593 -> "Psalms 75"
+                n < 2186633 -> "Psalms 76"
+                n < 2188405 -> "Psalms 77"
+                n < 2195282 -> "Psalms 78"
+                n < 2196830 -> "Psalms 79"
+                n < 2198613 -> "Psalms 80"
+                n < 2200171 -> "Psalms 81"
+                n < 2200810 -> "Psalms 82"
+                n < 2202335 -> "Psalms 83"
+                n < 2203517 -> "Psalms 84"
+                n < 2204674 -> "Psalms 85"
+                n < 2206307 -> "Psalms 86"
+                n < 2206924 -> "Psalms 87"
+                n < 2208535 -> "Psalms 88"
+                n < 2213342 -> "Psalms 89"
+                n < 2215067 -> "Psalms 90"
+                n < 2216613 -> "Psalms 91"
+                n < 2218019 -> "Psalms 92"
+                n < 2218551 -> "Psalms 93"
+                n < 2220568 -> "Psalms 94"
+                n < 2221566 -> "Psalms 95"
+                n < 2222798 -> "Psalms 96"
+                n < 2223901 -> "Psalms 97"
+                n < 2224830 -> "Psalms 98"
+                n < 2225724 -> "Psalms 99"
+                n < 2226195 -> "Psalms 100"
+                n < 2227071 -> "Psalms 101"
+                n < 2229514 -> "Psalms 102"
+                n < 2231438 -> "Psalms 103"
+                n < 2234710 -> "Psalms 104"
+                n < 2238237 -> "Psalms 105"
+                n < 2242647 -> "Psalms 106"
+                n < 2246570 -> "Psalms 107"
+                n < 2247671 -> "Psalms 108"
+                n < 2250550 -> "Psalms 109"
+                n < 2251293 -> "Psalms 110"
+                n < 2252290 -> "Psalms 111"
+                n < 2253299 -> "Psalms 112"
+                n < 2254035 -> "Psalms 113"
+                n < 2254643 -> "Psalms 114"
+                n < 2256108 -> "Psalms 115"
+                n < 2257615 -> "Psalms 116"
+                n < 2257794 -> "Psalms 117"
+                n < 2260226 -> "Psalms 118"
+                n < 2273990 -> "Psalms 119"
+                n < 2274448 -> "Psalms 120"
+                n < 2275044 -> "Psalms 121"
+                n < 2275719 -> "Psalms 122"
+                n < 2276206 -> "Psalms 123"
+                n < 2276809 -> "Psalms 124"
+                n < 2277396 -> "Psalms 125"
+                n < 2277936 -> "Psalms 126"
+                n < 2278487 -> "Psalms 127"
+                n < 2279034 -> "Psalms 128"
+                n < 2279680 -> "Psalms 129"
+                n < 2280310 -> "Psalms 130"
+                n < 2280624 -> "Psalms 131"
+                n < 2282111 -> "Psalms 132"
+                n < 2282492 -> "Psalms 133"
+                n < 2282721 -> "Psalms 134"
+                n < 2284515 -> "Psalms 135"
+                n < 2286473 -> "Psalms 136"
+                n < 2287353 -> "Psalms 137"
+                n < 2288273 -> "Psalms 138"
+                n < 2290473 -> "Psalms 139"
+                n < 2291795 -> "Psalms 140"
+                n < 2292864 -> "Psalms 141"
+                n < 2293649 -> "Psalms 142"
+                n < 2294968 -> "Psalms 143"
+                n < 2296628 -> "Psalms 144"
+                n < 2298436 -> "Psalms 145"
+                n < 2299401 -> "Psalms 146"
+                n < 2301084 -> "Psalms 147"
+                n < 2302214 -> "Psalms 148"
+                n < 2303007 -> "Psalms 149"
+                n < 2303513 -> "Psalms 150"
+                n < 2306412 -> "Proverbs 1"
+                n < 2308226 -> "Proverbs 2"
+                n < 2311194 -> "Proverbs 3"
+                n < 2313465 -> "Proverbs 4"
+                n < 2315409 -> "Proverbs 5"
+                n < 2318463 -> "Proverbs 6"
+                n < 2320687 -> "Proverbs 7"
+                n < 2323804 -> "Proverbs 8"
+                n < 2325379 -> "Proverbs 9"
+                n < 2328325 -> "Proverbs 10"
+                n < 2331386 -> "Proverbs 11"
+                n < 2334063 -> "Proverbs 12"
+                n < 2336394 -> "Proverbs 13"
+                n < 2339569 -> "Proverbs 14"
+                n < 2342645 -> "Proverbs 15"
+                n < 2345614 -> "Proverbs 16"
+                n < 2348285 -> "Proverbs 17"
+                n < 2350433 -> "Proverbs 18"
+                n < 2353257 -> "Proverbs 19"
+                n < 2355972 -> "Proverbs 20"
+                n < 2358794 -> "Proverbs 21"
+                n < 2361444 -> "Proverbs 22"
+                n < 2364513 -> "Proverbs 23"
+                n < 2367706 -> "Proverbs 24"
+                n < 2370478 -> "Proverbs 25"
+                n < 2372920 -> "Proverbs 26"
+                n < 2375462 -> "Proverbs 27"
+                n < 2378407 -> "Proverbs 28"
+                n < 2380856 -> "Proverbs 29"
+                n < 2384256 -> "Proverbs 30"
+                n < 2386860 -> "Proverbs 31"
+                n < 2388969 -> "Ecclesiastes 1"
+                n < 2392752 -> "Ecclesiastes 2"
+                n < 2395331 -> "Ecclesiastes 3"
+                n < 2397350 -> "Ecclesiastes 4"
+                n < 2400130 -> "Ecclesiastes 5"
+                n < 2401662 -> "Ecclesiastes 6"
+                n < 2404939 -> "Ecclesiastes 7"
+                n < 2407585 -> "Ecclesiastes 8"
+                n < 2410428 -> "Ecclesiastes 9"
+                n < 2412591 -> "Ecclesiastes 10"
+                n < 2414004 -> "Ecclesiastes 11"
+                n < 2416003 -> "Ecclesiastes 12"
+                n < 2417765 -> "Song of Solomon 1"
+                n < 2419586 -> "Song of Solomon 2"
+                n < 2421073 -> "Song of Solomon 3"
+                n < 2423075 -> "Song of Solomon 4"
+                n < 2425144 -> "Song of Solomon 5"
+                n < 2426672 -> "Song of Solomon 6"
+                n < 2428201 -> "Song of Solomon 7"
+                n < 2430088 -> "Song of Solomon 8"
+                n < 2434247 -> "Isaiah 1"
+                n < 2437231 -> "Isaiah 2"
+                n < 2440471 -> "Isaiah 3"
+                n < 2441554 -> "Isaiah 4"
+                n < 2446241 -> "Isaiah 5"
+                n < 2448111 -> "Isaiah 6"
+                n < 2451711 -> "Isaiah 7"
+                n < 2454740 -> "Isaiah 8"
+                n < 2458012 -> "Isaiah 9"
+                n < 2462901 -> "Isaiah 10"
+                n < 2465628 -> "Isaiah 11"
+                n < 2466336 -> "Isaiah 12"
+                n < 2469470 -> "Isaiah 13"
+                n < 2474046 -> "Isaiah 14"
+                n < 2475490 -> "Isaiah 15"
+                n < 2477779 -> "Isaiah 16"
+                n < 2480062 -> "Isaiah 17"
+                n < 2481435 -> "Isaiah 18"
+                n < 2485318 -> "Isaiah 19"
+                n < 2486256 -> "Isaiah 20"
+                n < 2488528 -> "Isaiah 21"
+                n < 2492086 -> "Isaiah 22"
+                n < 2494676 -> "Isaiah 23"
+                n < 2497932 -> "Isaiah 24"
+                n < 2499872 -> "Isaiah 25"
+                n < 2502809 -> "Isaiah 26"
+                n < 2504905 -> "Isaiah 27"
+                n < 2509306 -> "Isaiah 28"
+                n < 2513259 -> "Isaiah 29"
+                n < 2518830 -> "Isaiah 30"
+                n < 2520513 -> "Isaiah 31"
+                n < 2522929 -> "Isaiah 32"
+                n < 2526280 -> "Isaiah 33"
+                n < 2529089 -> "Isaiah 34"
+                n < 2530601 -> "Isaiah 35"
+                n < 2534243 -> "Isaiah 36"
+                n < 2540334 -> "Isaiah 37"
+                n < 2543321 -> "Isaiah 38"
+                n < 2544767 -> "Isaiah 39"
+                n < 2549112 -> "Isaiah 40"
+                n < 2553427 -> "Isaiah 41"
+                n < 2556977 -> "Isaiah 42"
+                n < 2560772 -> "Isaiah 43"
+                n < 2565566 -> "Isaiah 44"
+                n < 2569663 -> "Isaiah 45"
+                n < 2571464 -> "Isaiah 46"
+                n < 2574061 -> "Isaiah 47"
+                n < 2577358 -> "Isaiah 48"
+                n < 2581924 -> "Isaiah 49"
+                n < 2583818 -> "Isaiah 50"
+                n < 2587856 -> "Isaiah 51"
+                n < 2590086 -> "Isaiah 52"
+                n < 2592123 -> "Isaiah 53"
+                n < 2594837 -> "Isaiah 54"
+                n < 2596924 -> "Isaiah 55"
+                n < 2598876 -> "Isaiah 56"
+                n < 2601950 -> "Isaiah 57"
+                n < 2604704 -> "Isaiah 58"
+                n < 2608039 -> "Isaiah 59"
+                n < 2611643 -> "Isaiah 60"
+                n < 2613753 -> "Isaiah 61"
+                n < 2615683 -> "Isaiah 62"
+                n < 2618630 -> "Isaiah 63"
+                n < 2620341 -> "Isaiah 64"
+                n < 2624364 -> "Isaiah 65"
+                n < 2628657 -> "Isaiah 66"
+                n < 2631411 -> "Jeremiah 1"
+                n < 2636929 -> "Jeremiah 2"
+                n < 2641317 -> "Jeremiah 3"
+                n < 2646065 -> "Jeremiah 4"
+                n < 2650805 -> "Jeremiah 5"
+                n < 2655348 -> "Jeremiah 6"
+                n < 2660485 -> "Jeremiah 7"
+                n < 2664258 -> "Jeremiah 8"
+                n < 2668484 -> "Jeremiah 9"
+                n < 2672040 -> "Jeremiah 10"
+                n < 2675997 -> "Jeremiah 11"
+                n < 2678959 -> "Jeremiah 12"
+                n < 2682910 -> "Jeremiah 13"
+                n < 2686634 -> "Jeremiah 14"
+                n < 2690251 -> "Jeremiah 15"
+                n < 2694025 -> "Jeremiah 16"
+                n < 2698437 -> "Jeremiah 17"
+                n < 2701881 -> "Jeremiah 18"
+                n < 2704768 -> "Jeremiah 19"
+                n < 2707934 -> "Jeremiah 20"
+                n < 2710547 -> "Jeremiah 21"
+                n < 2715078 -> "Jeremiah 22"
+                n < 2721469 -> "Jeremiah 23"
+                n < 2723333 -> "Jeremiah 24"
+                n < 2729444 -> "Jeremiah 25"
+                n < 2733646 -> "Jeremiah 26"
+                n < 2737681 -> "Jeremiah 27"
+                n < 2740619 -> "Jeremiah 28"
+                n < 2746101 -> "Jeremiah 29"
+                n < 2749947 -> "Jeremiah 30"
+                n < 2756822 -> "Jeremiah 31"
+                n < 2764450 -> "Jeremiah 32"
+                n < 2768937 -> "Jeremiah 33"
+                n < 2773401 -> "Jeremiah 34"
+                n < 2776896 -> "Jeremiah 35"
+                n < 2782719 -> "Jeremiah 36"
+                n < 2786100 -> "Jeremiah 37"
+                n < 2791310 -> "Jeremiah 38"
+                n < 2794279 -> "Jeremiah 39"
+                n < 2797912 -> "Jeremiah 40"
+                n < 2801466 -> "Jeremiah 41"
+                n < 2805357 -> "Jeremiah 42"
+                n < 2807765 -> "Jeremiah 43"
+                n < 2814259 -> "Jeremiah 44"
+                n < 2815040 -> "Jeremiah 45"
+                n < 2819495 -> "Jeremiah 46"
+                n < 2820668 -> "Jeremiah 47"
+                n < 2827053 -> "Jeremiah 48"
+                n < 2833496 -> "Jeremiah 49"
+                n < 2841453 -> "Jeremiah 50"
+                n < 2851563 -> "Jeremiah 51"
+                n < 2857392 -> "Jeremiah 52"
+                n < 2861624 -> "Lamentations 1"
+                n < 2866328 -> "Lamentations 2"
+                n < 2871088 -> "Lamentations 3"
+                n < 2874393 -> "Lamentations 4"
+                n < 2876049 -> "Lamentations 5"
+                n < 2880679 -> "Ezekiel 1"
+                n < 2882144 -> "Ezekiel 2"
+                n < 2886341 -> "Ezekiel 3"
+                n < 2889104 -> "Ezekiel 4"
+                n < 2892422 -> "Ezekiel 5"
+                n < 2894926 -> "Ezekiel 6"
+                n < 2899076 -> "Ezekiel 7"
+                n < 2902439 -> "Ezekiel 8"
+                n < 2904523 -> "Ezekiel 9"
+                n < 2908017 -> "Ezekiel 10"
+                n < 2911780 -> "Ezekiel 11"
+                n < 2915949 -> "Ezekiel 12"
+                n < 2919865 -> "Ezekiel 13"
+                n < 2923844 -> "Ezekiel 14"
+                n < 2924858 -> "Ezekiel 15"
+                n < 2935038 -> "Ezekiel 16"
+                n < 2939265 -> "Ezekiel 17"
+                n < 2944328 -> "Ezekiel 18"
+                n < 2946205 -> "Ezekiel 19"
+                n < 2954612 -> "Ezekiel 20"
+                n < 2959614 -> "Ezekiel 21"
+                n < 2964200 -> "Ezekiel 22"
+                n < 2971682 -> "Ezekiel 23"
+                n < 2975593 -> "Ezekiel 24"
+                n < 2978371 -> "Ezekiel 25"
+                n < 2982125 -> "Ezekiel 26"
+                n < 2987124 -> "Ezekiel 27"
+                n < 2991417 -> "Ezekiel 28"
+                n < 2995146 -> "Ezekiel 29"
+                n < 2999046 -> "Ezekiel 30"
+                n < 3002573 -> "Ezekiel 31"
+                n < 3008237 -> "Ezekiel 32"
+                n < 3013822 -> "Ezekiel 33"
+                n < 3018860 -> "Ezekiel 34"
+                n < 3021009 -> "Ezekiel 35"
+                n < 3027253 -> "Ezekiel 36"
+                n < 3031802 -> "Ezekiel 37"
+                n < 3035880 -> "Ezekiel 38"
+                n < 3040739 -> "Ezekiel 39"
+                n < 3049023 -> "Ezekiel 40"
+                n < 3053375 -> "Ezekiel 41"
+                n < 3056590 -> "Ezekiel 42"
+                n < 3061368 -> "Ezekiel 43"
+                n < 3066947 -> "Ezekiel 44"
+                n < 3071685 -> "Ezekiel 45"
+                n < 3076245 -> "Ezekiel 46"
+                n < 3080467 -> "Ezekiel 47"
+                n < 3086118 -> "Ezekiel 48"
+                n < 3089401 -> "Daniel 1"
+                n < 3097633 -> "Daniel 2"
+                n < 3103333 -> "Daniel 3"
+                n < 3110263 -> "Daniel 4"
+                n < 3115830 -> "Daniel 5"
+                n < 3120820 -> "Daniel 6"
+                n < 3125759 -> "Daniel 7"
+                n < 3130226 -> "Daniel 8"
+                n < 3135570 -> "Daniel 9"
+                n < 3138949 -> "Daniel 10"
+                n < 3147199 -> "Daniel 11"
+                n < 3149327 -> "Daniel 12"
+                n < 3151144 -> "Hosea 1"
+                n < 3154624 -> "Hosea 2"
+                n < 3155446 -> "Hosea 3"
+                n < 3158110 -> "Hosea 4"
+                n < 3160111 -> "Hosea 5"
+                n < 3161430 -> "Hosea 6"
+                n < 3163645 -> "Hosea 7"
+                n < 3165429 -> "Hosea 8"
+                n < 3168005 -> "Hosea 9"
+                n < 3170364 -> "Hosea 10"
+                n < 3171970 -> "Hosea 11"
+                n < 3173665 -> "Hosea 12"
+                n < 3175904 -> "Hosea 13"
+                n < 3177117 -> "Hosea 14"
+                n < 3179861 -> "Joel 1"
+                n < 3184995 -> "Joel 2"
+                n < 3188098 -> "Joel 3"
+                n < 3190637 -> "Amos 1"
+                n < 3193033 -> "Amos 2"
+                n < 3195102 -> "Amos 3"
+                n < 3197454 -> "Amos 4"
+                n < 3200968 -> "Amos 5"
+                n < 3203084 -> "Amos 6"
+                n < 3205554 -> "Amos 7"
+                n < 3207640 -> "Amos 8"
+                n < 3210463 -> "Amos 9"
+                n < 3214116 -> "Obadiah 1"
+                n < 3216719 -> "Jonah 1"
+                n < 3217836 -> "Jonah 2"
+                n < 3219215 -> "Jonah 3"
+                n < 3220901 -> "Jonah 4"
+                n < 3223345 -> "Micah 1"
+                n < 3225454 -> "Micah 2"
+                n < 3227319 -> "Micah 3"
+                n < 3229779 -> "Micah 4"
+                n < 3232122 -> "Micah 5"
+                n < 3234505 -> "Micah 6"
+                n < 3237589 -> "Micah 7"
+                n < 3239727 -> "Nahum 1"
+                n < 3241758 -> "Nahum 2"
+                n < 3244661 -> "Nahum 3"
+                n < 3247081 -> "Habakkuk 1"
+                n < 3250070 -> "Habakkuk 2"
+                n < 3252781 -> "Habakkuk 3"
+                n < 3255706 -> "Zephaniah 1"
+                n < 3258276 -> "Zephaniah 2"
+                n < 3261466 -> "Zephaniah 3"
+                n < 3263816 -> "Haggai 1"
+                n < 3267335 -> "Haggai 2"
+                n < 3270663 -> "Zechariah 1"
+                n < 3272312 -> "Zechariah 2"
+                n < 3273875 -> "Zechariah 3"
+                n < 3275804 -> "Zechariah 4"
+                n < 3277521 -> "Zechariah 5"
+                n < 3279751 -> "Zechariah 6"
+                n < 3281801 -> "Zechariah 7"
+                n < 3285404 -> "Zechariah 8"
+                n < 3288182 -> "Zechariah 9"
+                n < 3290303 -> "Zechariah 10"
+                n < 3292853 -> "Zechariah 11"
+                n < 3295355 -> "Zechariah 12"
+                n < 3297069 -> "Zechariah 13"
+                n < 3301006 -> "Zechariah 14"
+                n < 3303546 -> "Malachi 1"
+                n < 3306452 -> "Malachi 2"
+                n < 3309439 -> "Malachi 3"
+                n < 3310386 -> "Malachi 4"
+                n < 3313116 -> "Matthew 1"
+                n < 3316481 -> "Matthew 2"
+                n < 3318570 -> "Matthew 3"
+                n < 3321656 -> "Matthew 4"
+                n < 3327466 -> "Matthew 5"
+                n < 3331781 -> "Matthew 6"
+                n < 3335093 -> "Matthew 7"
+                n < 3339265 -> "Matthew 8"
+                n < 3343850 -> "Matthew 9"
+                n < 3348750 -> "Matthew 10"
+                n < 3352320 -> "Matthew 11"
+                n < 3358630 -> "Matthew 12"
+                n < 3366080 -> "Matthew 13"
+                n < 3369993 -> "Matthew 14"
+                n < 3374372 -> "Matthew 15"
+                n < 3378023 -> "Matthew 16"
+                n < 3381393 -> "Matthew 17"
+                n < 3385991 -> "Matthew 18"
+                n < 3389924 -> "Matthew 19"
+                n < 3394057 -> "Matthew 20"
+                n < 3400130 -> "Matthew 21"
+                n < 3404730 -> "Matthew 22"
+                n < 3409470 -> "Matthew 23"
+                n < 3415080 -> "Matthew 24"
+                n < 3420425 -> "Matthew 25"
+                n < 3429081 -> "Matthew 26"
+                n < 3436561 -> "Matthew 27"
+                n < 3438839 -> "Matthew 28"
+                n < 3443967 -> "Mark 1"
+                n < 3447782 -> "Mark 2"
+                n < 3451491 -> "Mark 3"
+                n < 3456338 -> "Mark 4"
+                n < 3461435 -> "Mark 5"
+                n < 3468510 -> "Mark 6"
+                n < 3472955 -> "Mark 7"
+                n < 3477440 -> "Mark 8"
+                n < 3483639 -> "Mark 9"
+                n < 3490168 -> "Mark 10"
+                n < 3494351 -> "Mark 11"
+                n < 3500085 -> "Mark 12"
+                n < 3504533 -> "Mark 13"
+                n < 3512975 -> "Mark 14"
+                n < 3518077 -> "Mark 15"
+                n < 3520526 -> "Mark 16"
+                n < 3529163 -> "Luke 1"
+                n < 3535138 -> "Luke 2"
+                n < 3540448 -> "Luke 3"
+                n < 3545848 -> "Luke 4"
+                n < 3550952 -> "Luke 5"
+                n < 3557409 -> "Luke 6"
+                n < 3563857 -> "Luke 7"
+                n < 3571507 -> "Luke 8"
+                n < 3579247 -> "Luke 9"
+                n < 3584590 -> "Luke 10"
+                n < 3591644 -> "Luke 11"
+                n < 3599147 -> "Luke 12"
+                n < 3603780 -> "Luke 13"
+                n < 3608072 -> "Luke 14"
+                n < 3611878 -> "Luke 15"
+                n < 3615977 -> "Luke 16"
+                n < 3620254 -> "Luke 17"
+                n < 3624970 -> "Luke 18"
+                n < 3630532 -> "Luke 19"
+                n < 3635783 -> "Luke 20"
+                n < 3640172 -> "Luke 21"
+                n < 3647634 -> "Luke 22"
+                n < 3653822 -> "Luke 23"
+                n < 3659585 -> "Luke 24"
+                n < 3664977 -> "John 1"
+                n < 3667762 -> "John 2"
+                n < 3671902 -> "John 3"
+                n < 3677845 -> "John 4"
+                n < 3683145 -> "John 5"
+                n < 3691152 -> "John 6"
+                n < 3696496 -> "John 7"
+                n < 3703201 -> "John 8"
+                n < 3707730 -> "John 9"
+                n < 3711984 -> "John 10"
+                n < 3718255 -> "John 11"
+                n < 3724004 -> "John 12"
+                n < 3728321 -> "John 13"
+                n < 3731980 -> "John 14"
+                n < 3735107 -> "John 15"
+                n < 3739194 -> "John 16"
+                n < 3742417 -> "John 17"
+                n < 3747559 -> "John 18"
+                n < 3753131 -> "John 19"
+                n < 3757190 -> "John 20"
+                n < 3760943 -> "John 21"
+                n < 3764625 -> "Acts 1"
+                n < 3770259 -> "Acts 2"
+                n < 3773674 -> "Acts 3"
+                n < 3778431 -> "Acts 4"
+                n < 3783996 -> "Acts 5"
+                n < 3786043 -> "Acts 6"
+                n < 3793698 -> "Acts 7"
+                n < 3798648 -> "Acts 8"
+                n < 3804299 -> "Acts 9"
+                n < 3810288 -> "Acts 10"
+                n < 3813972 -> "Acts 11"
+                n < 3817552 -> "Acts 12"
+                n < 3824517 -> "Acts 13"
+                n < 3828090 -> "Acts 14"
+                n < 3833389 -> "Acts 15"
+                n < 3838629 -> "Acts 16"
+                n < 3843425 -> "Acts 17"
+                n < 3847144 -> "Acts 18"
+                n < 3852664 -> "Acts 19"
+                n < 3857480 -> "Acts 20"
+                n < 3863345 -> "Acts 21"
+                n < 3867436 -> "Acts 22"
+                n < 3872475 -> "Acts 23"
+                n < 3876090 -> "Acts 24"
+                n < 3880056 -> "Acts 25"
+                n < 3884387 -> "Acts 26"
+                n < 3890050 -> "Acts 27"
+                n < 3894548 -> "Acts 28"
+                n < 3898630 -> "Romans 1"
+                n < 3902115 -> "Romans 2"
+                n < 3905229 -> "Romans 3"
+                n < 3908293 -> "Romans 4"
+                n < 3910923 -> "Romans 5"
+                n < 3913581 -> "Romans 6"
+                n < 3916596 -> "Romans 7"
+                n < 3921449 -> "Romans 8"
+                n < 3925362 -> "Romans 9"
+                n < 3927888 -> "Romans 10"
+                n < 3932321 -> "Romans 11"
+                n < 3934614 -> "Romans 12"
+                n < 3936586 -> "Romans 13"
+                n < 3939390 -> "Romans 14"
+                n < 3943439 -> "Romans 15"
+                n < 3946359 -> "Romans 16"
+                n < 3949847 -> "1 Corinthians 1"
+                n < 3951842 -> "1 Corinthians 2"
+                n < 3954312 -> "1 Corinthians 3"
+                n < 3956966 -> "1 Corinthians 4"
+                n < 3958709 -> "1 Corinthians 5"
+                n < 3961194 -> "1 Corinthians 6"
+                n < 3966303 -> "1 Corinthians 7"
+                n < 3967951 -> "1 Corinthians 8"
+                n < 3971352 -> "1 Corinthians 9"
+                n < 3974942 -> "1 Corinthians 10"
+                n < 3978652 -> "1 Corinthians 11"
+                n < 3981917 -> "1 Corinthians 12"
+                n < 3983412 -> "1 Corinthians 13"
+                n < 3988295 -> "1 Corinthians 14"
+                n < 3994510 -> "1 Corinthians 15"
+                n < 3996888 -> "1 Corinthians 16"
+                n < 4000013 -> "2 Corinthians 1"
+                n < 4002075 -> "2 Corinthians 2"
+                n < 4004225 -> "2 Corinthians 3"
+                n < 4006451 -> "2 Corinthians 4"
+                n < 4009095 -> "2 Corinthians 5"
+                n < 4011121 -> "2 Corinthians 6"
+                n < 4013614 -> "2 Corinthians 7"
+                n < 4016664 -> "2 Corinthians 8"
+                n < 4018690 -> "2 Corinthians 9"
+                n < 4021130 -> "2 Corinthians 10"
+                n < 4025035 -> "2 Corinthians 11"
+                n < 4028144 -> "2 Corinthians 12"
+                n < 4029802 -> "2 Corinthians 13"
+                n < 4032251 -> "Galatians 1"
+                n < 4035366 -> "Galatians 2"
+                n < 4038856 -> "Galatians 3"
+                n < 4042078 -> "Galatians 4"
+                n < 4044653 -> "Galatians 5"
+                n < 4046575 -> "Galatians 6"
+                n < 4049362 -> "Ephesians 1"
+                n < 4051890 -> "Ephesians 2"
+                n < 4054122 -> "Ephesians 3"
+                n < 4057585 -> "Ephesians 4"
+                n < 4060774 -> "Ephesians 5"
+                n < 4063423 -> "Ephesians 6"
+                n < 4066800 -> "Philippians 1"
+                n < 4070011 -> "Philippians 2"
+                n < 4072693 -> "Philippians 3"
+                n < 4075361 -> "Philippians 4"
+                n < 4078955 -> "Colossians 1"
+                n < 4081761 -> "Colossians 2"
+                n < 4084379 -> "Colossians 3"
+                n < 4086425 -> "Colossians 4"
+                n < 4087762 -> "1 Thessalonians 1"
+                n < 4090358 -> "1 Thessalonians 2"
+                n < 4091968 -> "1 Thessalonians 3"
+                n < 4094097 -> "1 Thessalonians 4"
+                n < 4096399 -> "1 Thessalonians 5"
+                n < 4097999 -> "2 Thessalonians 1"
+                n < 4100116 -> "2 Thessalonians 2"
+                n < 4102002 -> "2 Thessalonians 3"
+                n < 4104529 -> "1 Timothy 1"
+                n < 4105961 -> "1 Timothy 2"
+                n < 4107764 -> "1 Timothy 3"
+                n < 4109591 -> "1 Timothy 4"
+                n < 4112342 -> "1 Timothy 5"
+                n < 4115098 -> "1 Timothy 6"
+                n < 4117454 -> "2 Timothy 1"
+                n < 4120330 -> "2 Timothy 2"
+                n < 4122184 -> "2 Timothy 3"
+                n < 4124583 -> "2 Timothy 4"
+                n < 4126548 -> "Titus 1"
+                n < 4128139 -> "Titus 2"
+                n < 4129870 -> "Titus 3"
+                n < 4132281 -> "Philemon 1"
+                n < 4134071 -> "Hebrews 1"
+                n < 4136614 -> "Hebrews 2"
+                n < 4138588 -> "Hebrews 3"
+                n < 4140708 -> "Hebrews 4"
+                n < 4142399 -> "Hebrews 5"
+                n < 4144784 -> "Hebrews 6"
+                n < 4148246 -> "Hebrews 7"
+                n < 4150297 -> "Hebrews 8"
+                n < 4154187 -> "Hebrews 9"
+                n < 4158603 -> "Hebrews 10"
+                n < 4163861 -> "Hebrews 11"
+                n < 4167775 -> "Hebrews 12"
+                n < 4170584 -> "Hebrews 13"
+                n < 4173567 -> "James 1"
+                n < 4176423 -> "James 2"
+                n < 4178519 -> "James 3"
+                n < 4180473 -> "James 4"
+                n < 4183108 -> "James 5"
+                n < 4186532 -> "1 Peter 1"
+                n < 4189665 -> "1 Peter 2"
+                n < 4192682 -> "1 Peter 3"
+                n < 4195243 -> "1 Peter 4"
+                n < 4196946 -> "1 Peter 5"
+                n < 4199698 -> "2 Peter 1"
+                n < 4203144 -> "2 Peter 2"
+                n < 4205863 -> "2 Peter 3"
+                n < 4207115 -> "1 John 1"
+                n < 4210991 -> "1 John 2"
+                n < 4213892 -> "1 John 3"
+                n < 4216340 -> "1 John 4"
+                n < 4218997 -> "1 John 5"
+                n < 4220593 -> "2 John 1"
+                n < 4222233 -> "3 John 1"
+                n < 4225847 -> "Jude 1"
+                n < 4228948 -> "Revelation 1"
+                n < 4233272 -> "Revelation 2"
+                n < 4236661 -> "Revelation 3"
+                n < 4238491 -> "Revelation 4"
+                n < 4240745 -> "Revelation 5"
+                n < 4243469 -> "Revelation 6"
+                n < 4246173 -> "Revelation 7"
+                n < 4248283 -> "Revelation 8"
+                n < 4251407 -> "Revelation 9"
+                n < 4253190 -> "Revelation 10"
+                n < 4256380 -> "Revelation 11"
+                n < 4259014 -> "Revelation 12"
+                n < 4261780 -> "Revelation 13"
+                n < 4265235 -> "Revelation 14"
+                n < 4266569 -> "Revelation 15"
+                n < 4269591 -> "Revelation 16"
+                n < 4272424 -> "Revelation 17"
+                n < 4276513 -> "Revelation 18"
+                n < 4279857 -> "Revelation 19"
+                n < 4282356 -> "Revelation 20"
+                n < 4286362 -> "Revelation 21"
+                else -> "Revelation 22"
             }
         }
-        if (modified) this.save();
     }
 }
-

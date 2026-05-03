@@ -20,6 +20,7 @@
             android:src="@mipmap/bible_banner" />
 
         <TextView
+            android:id="@+id/old_testament_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -417,6 +418,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/new_testament_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

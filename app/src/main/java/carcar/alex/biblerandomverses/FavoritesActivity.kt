@@ -1,48 +1,45 @@
-package carcar.alex.biblerandomverses;
+package carcar.alex.biblerandomverses
 
-import android.app.ListActivity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
+import carcar.alex.biblerandomverses.databinding.ActivityFavoritesListBinding
 
-import java.util.ArrayList;
-import java.util.List;
+class FavoritesActivity : AppCompatActivity() {
 
-public class FavoritesActivity extends ListActivity {
+    private lateinit var binding: ActivityFavoritesListBinding
+    private var favoriteIds: List<Long>? = null
 
-    private List<Long> favoriteIds = null;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityFavoritesListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View headerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(R.layout.activity_favorites_header, this.getListView(), false);
-        this.getListView().addHeaderView(headerView);
-
-        View footerView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(R.layout.activity_favorites_footer, this.getListView(), false);
-        this.getListView().addFooterView(footerView);
-
-        BibleFavorites bibleFavorites = new BibleFavorites(this);
-        ArrayList<String> favorites = new ArrayList<>();
-        favoriteIds = bibleFavorites.getFavorites();
-        for (Long id : favoriteIds) {
-            favorites.add(BibleFavorites.title(id));
+        val bibleFavorites = BibleFavorites(this)
+        val favoritesStrings = mutableListOf<String>()
+        favoriteIds = bibleFavorites.getFavorites()
+        
+        favoriteIds?.let { ids ->
+            for (id in ids) {
+                favoritesStrings.add(BibleFavorites.title(id))
+            }
         }
-        setListAdapter(new ArrayAdapter<>(this, R.layout.activity_favorites, R.id.favorites, favorites));
+        
+        val adapter = ArrayAdapter(this, R.layout.activity_favorites, R.id.favorites, favoritesStrings)
+        binding.favoritesList.adapter = adapter
+
+        binding.favoritesList.setOnItemClickListener { _, _, position, _ ->
+            favoriteIds?.let { ids ->
+                if (position >= 0 && position < ids.size) {
+                    MainActivity.favoriteBookmark = ids[position]
+                    finish()
+                }
+            }
+        }
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        MainActivity.favoriteBookmark = favoriteIds.get(position - 1);
-        this.finish();
-    }
-
-    public void closeWindow(View view) {
-        this.finish();
+    fun closeWindow(view: View) {
+        finish()
     }
 }
